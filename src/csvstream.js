@@ -1,4 +1,3 @@
-const __ = require('highland')
 const stream = require('stream')
 
 class MockOutputStream extends stream.Writable {
@@ -22,7 +21,6 @@ class MockOutputStream extends stream.Writable {
 
 async function process (context) {
   const fs = require('fs')
-  const csv = require('csv-stream')
   const options = {
     delimiter: ';', // default is ,
     endLine: '$', // default is \n,
@@ -33,7 +31,6 @@ async function process (context) {
   }
   const readable = fs.createReadStream(context.source)
   const writable = new MockOutputStream()
-  const CSVStream = csv.createStream(options)
 
   readable.on('data', (chunk) => {
     console.log(`Received ${chunk.length} bytes of data.`)
