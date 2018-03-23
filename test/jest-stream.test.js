@@ -21,6 +21,7 @@ test('axios', async () => {
 
 test('axios stream', async () => {
   const response = await streamClient('/posts')
+  // console.log(response.request)
   expect(response.status).toBe(200)
   expect(response.headers['content-type']).toBe('application/json; charset=utf-8')
   expect(response.data.IncomingMessage).toBeDefined()
@@ -33,4 +34,12 @@ test('supertest', async () => {
   expect(response.type).toBe('application/json')
   expect(response.body[0].id).toBe(1)
   expect(response.body.lenght).toBeGreaterThan(0)
+})
+
+test('supertest stream', async () => {
+  const response = await supertest.get('/posts').set('Accept', 'stream')
+  expect(response.status).toBe(200)
+  expect(response.type).toBe('application/json')
+  expect(response.body.IncomingMessage).toBeDefined()
+  expect(response.body.IncomingMessage.ReadableState).toHaveLength(615)
 })
