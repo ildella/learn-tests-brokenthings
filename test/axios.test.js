@@ -23,7 +23,6 @@ test('axios stream', async () => {
   const response = await streamClient('/posts')
   expect(response.status).toBe(200)
   expect(response.headers['content-type']).toBe('application/json; charset=utf-8')
-  expect(response.data.lenght).toBeUndefined()
   expect(response.data.IncomingMessage).toBeDefined()
   expect(response.data.IncomingMessage.ReadableState).toHaveLength(615)
 })
