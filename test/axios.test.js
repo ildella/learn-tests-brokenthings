@@ -1,16 +1,11 @@
 const axios = require('axios')
 const baseURL = 'https://jsonplaceholder.typicode.com'
-
 const streamClient = axios.create({
   baseURL: baseURL,
-  responseType: 'stream',
-  timeout: 5000
+  responseType: 'stream'
 })
-const client = axios.create({
-  baseURL: baseURL,
-  timeout: 5000
-})
-const api = require('supertest')(baseURL)
+const client = axios.create({baseURL: baseURL})
+const supertest = require('supertest')(baseURL)
 
 test('axios', async () => {
   const response = await client('/posts')
@@ -34,7 +29,7 @@ test('axios stream', async () => {
 })
 
 test('supertest', async () => {
-  const response = await api.get('/posts')
+  const response = await supertest.get('/posts')
   expect(response.status).toBe(200)
   expect(response.type).toBe('application/json')
   expect(response.body[0].id).toBe(1)
