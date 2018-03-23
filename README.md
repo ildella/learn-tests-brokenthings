@@ -13,3 +13,7 @@ There will be three two kind of content:
 
 So why test in the title as well? 
 Cause most code will be written in test form, and I commit to keep the project green.
+
+## Tests
+Tests are done with Jest, so by default 'npm test' will run only jest files
+Some sample test for Jasmine are also present.
