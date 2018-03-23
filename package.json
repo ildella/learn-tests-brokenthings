@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/jest-cli/bin/jest.js -o --watch",
+    "test": "./node_modules/.bin/jest -o --watch",
     "jasmine": "./node_modules/.bin/jasmine"
   },
   "repository": {
