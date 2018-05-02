@@ -79,4 +79,5 @@ test('elegant if else else', async () => {
   expect(genders['m'] || 'Not Specified').toBe('Male')
   expect(genders['f'] || 'Not Specified').toBe('Female')
   expect(genders[''] || 'Not Specified').toBe('Not Specified')
+  //_.map(`${video.rgb}`.split(','), s => parseInt(s))
 })
