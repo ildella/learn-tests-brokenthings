@@ -36,7 +36,6 @@ tput setaf 2; echo 'pushing code...'
 tput setaf 8;
 git push ci master
 # npm run integration-test
-# git remote add dev https://git.heroku.com/worm-api-daniele.git
 # git push dev master
 # Configure Slack: 
 # npm i -g node-slack-cli
