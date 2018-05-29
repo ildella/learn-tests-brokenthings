@@ -1,5 +1,8 @@
 #!/bin/bash
-tput setaf 7; echo 'Triacos - build automation since 2018'
+normal='tput setaf 7'
+log='tput setaf 12'
+steps='tput setaf 2'
+$normal; echo 'Triacos - build automation since 2018'
 source build.conf
 echo `git --version`
 echo node version `node --version`
@@ -17,27 +20,27 @@ echo 'Checking config from build.conf':
 [ "$slackEnabled" = true ] && export SLACK_TOKEN=$SLACK_TOKEN
 echo app name: $APP
 echo slack enabled: $slackEnabled
-tput setaf 2; echo 'get the code...'
-tput setaf 8;
+$steps; echo 'get the code...'
+$log;
 git clone --branch 'master' $REPO ~/$APP
 cd ~/$APP
 echo working folder `pwd`
 git pull origin master
-tput setaf 2; echo 'run unit tests...'
-tput setaf 8;
+$steps; echo 'run unit tests...'
+$log;
 # npm ci
 # npm run unit-tests
-tput setaf 2; echo 'setting application config...'
-tput setaf 8;
+$steps; echo 'setting application config...'
+$log;
 [ -z "$DEV_APP" ] && echo "No DEV_APP"
 [ "$DEV_APP" ] && heroku config:pull -f .env.pulled -a $DEV_APP && heroku config:push -a $APP -o -c -f .env.pulled
 git remote add ci https://git.heroku.com/$APP.git
-tput setaf 2; echo 'pushing code...'
-tput setaf 8;
+$steps; echo 'pushing code...'
+$log;
 git push ci master
 # npm run integration-tests
 # Configure Slack --> get a token from https://api.slack.com/custom-integrations/legacy-tokens
-tput setaf 2; echo notify team...
-tput setaf 8;
+$steps; echo notify team...
+$log;
 slack -c $SLACK_CHANNEL -m "Build completed --> https://$APP.herokuapp.com" -u $SLACK_USERNAME
-tput setaf 7; echo 'Triacos wishes you an happy day'
+$normal; echo 'Triacos wishes you an happy day'
