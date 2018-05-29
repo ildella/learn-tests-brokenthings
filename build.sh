@@ -26,7 +26,7 @@ git pull origin master
 tput setaf 2; echo 'run unit tests...'
 tput setaf 8;
 # npm ci
-# npm run unit-test
+# npm run unit-tests
 tput setaf 2; echo 'setting application config...'
 tput setaf 8;
 [ -z "$DEV_APP" ] && echo "No DEV_APP"
@@ -35,11 +35,8 @@ git remote add ci https://git.heroku.com/$APP.git
 tput setaf 2; echo 'pushing code...'
 tput setaf 8;
 git push ci master
-# npm run integration-test
-# git push dev master
-# Configure Slack: 
-# npm i -g node-slack-cli
-# export SLACK_TOKEN="slack-token" --> get one https://api.slack.com/custom-integrations/legacy-tokens
+# npm run integration-tests
+# Configure Slack --> get a token from https://api.slack.com/custom-integrations/legacy-tokens
 tput setaf 2; echo notify team...
 tput setaf 8;
 slack -c $SLACK_CHANNEL -m "Build completed --> https://$APP.herokuapp.com" -u $SLACK_USERNAME
