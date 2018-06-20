@@ -1,5 +1,6 @@
 {
   "name": "learn-tests-brokenthings",
+  "version": "1.0.0",
   "description": "This is my repository for all code I write to learn stuff.  All the code is probably going to be Javascript as I almost esclusively use that language since 2015.",
   "engines": {
     "node": "8.11.3",
@@ -52,7 +53,7 @@
   "scripts": {
     "test": "./node_modules/.bin/jest -o --watch",
     "jasmine": "./node_modules/.bin/jasmine",
-    "ndc": "./node_modules/depcheck/bin/depcheck",
+    "depcheck": "./node_modules/depcheck/bin/depcheck",
     "eslint": "./node_modules/eslint/bin/eslint.js .",
     "eslint-print-all": "./node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml"
   }
