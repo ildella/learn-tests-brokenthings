@@ -2,15 +2,11 @@
   "name": "learn-tests-brokenthings",
   "description": "This is my repository for all code I write to learn stuff.  All the code is probably going to be Javascript as I almost esclusively use that language since 2015.",
   "engines": {
-    "node": "8"
+    "node": "8.11.3",
+    "npm": "6.1.0"
   },
-  "engine-strict": true,
   "directories": {
     "test": "test"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/jest -o --watch",
-    "jasmine": "./node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",
@@ -27,31 +23,37 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "axios": "~0.18.0",
-    "express": "~4.16.2",
-    "express-validator": "~5.0.3",
-    "express-async-await": "~1.1.0",
-    "body-parser": "~1.18.2",
-    "highland": "~2.13.0",
-    "JSONStream": "~1.3.2",
-    "lodash": "~4.17.4",
-    "moment": "~2.21.0",
-    "short-unique-id": "~1.1.1",
-    "tracer": "~0.8.11"
+    "JSONStream": "1.3.2",
+    "axios": "0.18.0",
+    "express": "4.16.2",
+    "express-async-await": "1.1.0",
+    "express-validator": "5.0.3",
+    "highland": "2.13.0",
+    "lodash": "4.17.4",
+    "short-unique-id": "1.1.1",
+    "tracer": "0.8.11"
   },
   "devDependencies": {
-    "dotenv": "~5.0.1",
-    "eslint": "~4.19.1",
-    "eslint-config-standard": "~11.0.0",
-    "eslint-plugin-import": "~2.9.0",
-    "eslint-plugin-jest": "~21.15.0",
-    "eslint-plugin-node": "~6.0.1",
-    "eslint-plugin-promise": "~3.7.0",
-    "eslint-plugin-standard": "~3.0.1",
-    "jasmine": "^3.1.0",
-    "jest": "^22.4.3",
-    "jest-cli": "^22.4.3",
-    "nodemon": "~1.17.2",
-    "supertest": "~3.0.0"
+    "depcheck": "^0.6.9",
+    "dotenv": "5.0.1",
+    "eslint": "4.19.1",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.9.0",
+    "eslint-plugin-jest": "21.15.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.7.0",
+    "eslint-plugin-standard": "3.0.1",
+    "jasmine": "3.1.0",
+    "jest": "22.4.3",
+    "jest-cli": "22.4.3",
+    "nodemon": "1.17.2",
+    "supertest": "3.0.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/jest -o --watch",
+    "jasmine": "./node_modules/.bin/jasmine",
+    "ndc": "./node_modules/depcheck/bin/depcheck",
+    "eslint": "./node_modules/eslint/bin/eslint.js .",
+    "eslint-print-all": "./node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml"
   }
 }
