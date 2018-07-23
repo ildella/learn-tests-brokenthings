@@ -16,17 +16,24 @@ test('Highland appen after map', async () => {
   expect(h1.__HighlandStream__).toBeTruthy()
   expect(h1._already_consumed).toBeTruthy()
   expect(h2._already_consumed).toBeFalsy()
-  console.log(h2)
-  // throw new Error('LOL')
+  // console.log(h2)
+  expect(h2.ended).toBeFalsy()
+  expect(h2.each(n => {}).ended).toBeTruthy()
 })
 
-test('emit error', async () => {
-  __([1, 2, 3, 4])
+test('just log error and move forward', async () => {
+  const s1 = __([1, 2, 3, 4])
     .map(n => {
+      if (n >= 4) { throw new Error('too big') }
+      // if (n >= 2 && n < 4) { return 0 }
       return n
+    })
+    .errors((err, push) => {
+      console.log(err)
+      console.log(push(null))
     })
     .done(() => {
       console.log('done')
-      throw new Error('LOL')
     })
+  expect(s1).toBeUndefined()
 })
