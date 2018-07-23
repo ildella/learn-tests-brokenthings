@@ -23,6 +23,8 @@ test('Highland appen after map', async () => {
 
 test('just log error and move forward', async () => {
   const s1 = __([1, 2, 3, 4])
+  expect(s1._incoming).toHaveLength(5)
+  const s2 = s1
     .map(n => {
       if (n >= 4) { throw new Error('too big') }
       // if (n >= 2 && n < 4) { return 0 }
@@ -30,10 +32,19 @@ test('just log error and move forward', async () => {
     })
     .errors((err, push) => {
       console.log(err)
-      console.log(push(null))
+      // push(null)
     })
-    .done(() => {
-      console.log('done')
-    })
-  expect(s1).toBeUndefined()
+  expect(s1.paused).toBeTruthy()
+  expect(s2.paused).toBeTruthy()
+  expect(s2.id).not.toEqual(s1.id)
+  s2
+    // .filter(item => item)
+    .each(n => console.log(n))
+    // .done(() => console.log('done'))
+  expect(s2.ended).toBeTruthy()
+  // console.log(s2)
+})
+
+test('collect errors in a different stream and do something else', async () => {
+  // TODO...
 })
