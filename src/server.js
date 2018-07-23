@@ -1,5 +1,5 @@
 'use strict'
-
+require('dotenv').config()
 const pjson = require('../package.json')
 const start = async (expressApp) => {
   expressApp.listen(process.env.PORT)
