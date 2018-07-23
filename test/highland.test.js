@@ -19,3 +19,14 @@ test('Highland appen after map', async () => {
   console.log(h2)
   // throw new Error('LOL')
 })
+
+test('emit error', async () => {
+  __([1, 2, 3, 4])
+    .map(n => {
+      return n
+    })
+    .done(() => {
+      console.log('done')
+      throw new Error('LOL')
+    })
+})
