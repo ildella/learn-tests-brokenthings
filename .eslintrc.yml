@@ -1,2 +1,35 @@
-extends: ["standard", "plugin:jest/recommended"]
-plugins: ["jest"]
+extends: ["eslint:recommended", "plugin:node/recommended", "plugin:security/recommended", "plugin:jest/recommended", "plugin:sonarjs/recommended"]
+plugins: ["jest", "sonarjs"]
+parserOptions: 
+  ecmaVersion: 2017
+env: 
+  node: true
+rules: 
+  # import/no-commonjs: 0
+  # camelcase: error
+  no-console: off
+  complexity: ['error', 5]
+  max-nested-callbacks: ['error', 2]
+  max-lines-per-function: ['warn', 45]
+  prefer-const: warn
+  max-lines: ['warn', 400]
+  no-var: error
+  no-unused-vars: warn
+  max-len: ['warn', {
+    code: 120, 
+    ignoreComments: false,
+    ignoreUrls: false,
+    ignoreStrings: false, 
+    ignoreTemplateLiterals: false, 
+    ignoreRegExpLiterals: false
+  }]
+  key-spacing: warn
+  sonarjs/cognitive-complexity: ['error', 10]
+  sonarjs/no-identical-functions: 'warn'
+  no-undef: error
+  # eslint-env: node
+  semi: [error, never]
+  no-trailing-spaces: warn
+  eol-last: warn
+  node/no-unpublished-require: off
+  node/no-extraneous-require: warn

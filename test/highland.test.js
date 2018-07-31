@@ -45,6 +45,18 @@ test('just log error and move forward', async () => {
   // console.log(s2)
 })
 
+test('fork', async () => {
+  const xs = __([1, 2, 3, 4])
+  const ys = xs.fork()
+  const zs = xs.fork()
+
+  // no values will be pulled from xs until zs also resume
+  ys.resume()
+
+  // now both ys and zs will get values from xs
+  zs.resume()
+})
+
 test('collect errors in a different stream and do something else', async () => {
   // TODO...
 })
