@@ -81,3 +81,8 @@ test('elegant if else else', async () => {
   expect(genders[''] || 'Not Specified').toBe('Not Specified')
   //_.map(`${video.rgb}`.split(','), s => parseInt(s))
 })
+
+test('generate random string', async () => {
+  const crypto = require('crypto')
+  crypto.randomBytes(4).toString('hex')
+})
