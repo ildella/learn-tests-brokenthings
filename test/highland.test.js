@@ -65,3 +65,35 @@ test('through', () => {
       expect(results).toHaveLength(4)
     })
 })
+
+test('fork and observe', () => {
+  const xs = __([1, 2, 3, 4])
+  const ys = xs.fork()
+  const zs = xs.observe()
+
+  // now both zs and ys will receive data as fast as ys can handle it
+  ys.resume()
+
+  ys
+    .toArray(results => {
+      expect(results).toHaveLength(4)
+    })
+  zs
+    .toArray(results => {
+      expect(results).toHaveLength(4)
+    })
+})
+
+const counter = items => item => {
+  items.push(1)
+  return item
+}
+
+__.counter = counter
+
+test('counter', () => {
+  const list = []
+  __([1, 2, 3, 4])
+    .map(__.counter(list))
+    .done(() => { expect(list).toHaveLength(4) })
+})
