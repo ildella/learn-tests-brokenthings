@@ -15,6 +15,9 @@ api.get('/', (req, res) => {
     version: pjson.version
   })
 })
+api.get('/path1', (req, res) => {
+	res.json({})
+})
 
 const router = express.Router()
 router.get('/', async function (req, res, next) {

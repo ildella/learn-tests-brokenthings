@@ -19,7 +19,7 @@ test('error chain', () => {
       }
       return n
     })
-    .errors(err => console.error(err.message))
+    .errors(err => console.error(`error detected -> ${err.message}`))
     .toArray(results => {
       expect(results).toHaveLength(2)
     })
@@ -96,4 +96,16 @@ test('counter', () => {
   __([1, 2, 3, 4])
     .map(__.counter(list))
     .done(() => { expect(list).toHaveLength(4) })
+})
+
+const sub = () => {
+  return __([1, 2, 3]).map(item => {
+    return item * 2
+  })
+}
+
+test('use stream from a function', () => {
+  sub().toArray(items => {
+    console.log(items)
+  })
 })
