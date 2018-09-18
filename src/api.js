@@ -16,7 +16,14 @@ api.get('/', (req, res) => {
   })
 })
 api.get('/path1', (req, res) => {
-	res.json({})
+	res.json({
+    url: req.url,
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    parsedUrlPathname: req._parsedUrl.pathname,
+    _parsedOriginalUrlPathname: req._parsedOriginalUrl.pathname,
+    httpVersion: req.httpVersion,
+	})
 })
 
 const router = express.Router()
@@ -25,5 +32,11 @@ router.get('/', async function (req, res, next) {
 })
 
 api.use('/stream', router)
+
+const errorHandler = (err, req, res, next) => {
+	console.error(err)
+}
+
+api.use(errorHandler)
 
 module.exports = app
