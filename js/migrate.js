@@ -3,8 +3,8 @@ const util = require('util')
 const _ = require('lodash')
 const __ = require('highland')
 const {DateTime} = require('luxon')
-const MongoStream = require('./mongostream')
-const mongoutils = require('../mongoutils')
+const MongoStream = require('./MongoStream')
+const mongoutils = require('./mongoutils')
 
 const logger = item => {
   tracer.debug(item)
