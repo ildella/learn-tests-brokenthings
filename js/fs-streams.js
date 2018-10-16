@@ -12,5 +12,5 @@ const overwrite = (source, target) => {
   read.pipe(write)
 }
 
-append('./bash/bash_aliases', './output')
+append('./bash/bash_aliases', './appended')
 overwrite('./bash/bash_aliases', './overwritten')
