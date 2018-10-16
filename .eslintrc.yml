@@ -1,35 +1,53 @@
-extends: ["eslint:recommended", "plugin:node/recommended", "plugin:security/recommended", "plugin:jest/recommended", "plugin:sonarjs/recommended"]
-plugins: ["jest", "sonarjs"]
-parserOptions: 
-  ecmaVersion: 2017
-env: 
-  node: true
-rules: 
-  # import/no-commonjs: 0
-  # camelcase: error
-  no-console: off
-  complexity: ['error', 5]
-  max-nested-callbacks: ['error', 2]
-  max-lines-per-function: ['warn', 45]
-  prefer-const: warn
-  max-lines: ['warn', 400]
-  no-var: error
-  no-unused-vars: warn
-  max-len: ['warn', {
-    code: 120, 
-    ignoreComments: false,
-    ignoreUrls: false,
-    ignoreStrings: false, 
-    ignoreTemplateLiterals: false, 
-    ignoreRegExpLiterals: false
-  }]
+env: {node: true}
+extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:security/recommended',
+  'plugin:jest/recommended', 'plugin:sonarjs/recommended']
+parserOptions: {ecmaVersion: 2017}
+plugins: [jest, sonarjs]
+rules:
+  complexity: [error, 5]
+  eol-last: [warn, always]
+  indent: [error, 2]
   key-spacing: warn
-  sonarjs/cognitive-complexity: ['error', 10]
-  sonarjs/no-identical-functions: 'warn'
-  no-undef: error
-  # eslint-env: node
-  semi: [error, never]
+  max-len:
+  - warn
+  - {code: 120, ignoreComments: false, ignoreRegExpLiterals: false, ignoreStrings: false,
+    ignoreTemplateLiterals: false, ignoreUrls: false}
+  max-lines: [warn, 400]
+  max-lines-per-function: [warn, 45]
+  max-nested-callbacks: [error, 2]
+  no-console: warn
+  no-multi-assign: warn
+  no-multi-spaces: warn
+  no-multi-str: warn
+  no-multiple-empty-lines:
+  - warn
+  - {max: 1, maxEOF: 1}
+  no-path-concat: error
+  no-process-exit: warn
+  no-sync: error
   no-trailing-spaces: warn
-  eol-last: warn
-  node/no-unpublished-require: off
-  node/no-extraneous-require: warn
+  no-undef: error
+  no-underscore-dangle: off
+  no-unused-vars: warn
+  no-useless-call: error
+  no-useless-concat: error
+  no-useless-constructor: error
+  no-var: error
+  no-whitespace-before-property: error
+  no-with: error
+  node/no-extraneous-require: error
+  node/no-unpublished-require: false
+  object-curly-newline: warn
+  object-curly-spacing: warn
+  prefer-arrow-callback: warn
+  prefer-const: warn
+  prefer-numeric-literals: warn
+  prefer-object-spread: off
+  prefer-spread: warn
+  quotes: [warn, single]
+  security/detect-non-literal-fs-filename: false
+  semi: [error, never]
+  sonarjs/cognitive-complexity: [error, 6]
+  sonarjs/no-identical-functions: warn
+  sonarjs/prefer-immediate-return: warn
+  space-before-function-paren: warn
