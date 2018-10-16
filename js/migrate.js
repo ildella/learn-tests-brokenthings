@@ -2,47 +2,14 @@ const tracer = require('tracer').colorConsole({level: process.env.LOG_LEVEL})
 const util = require('util')
 const _ = require('lodash')
 const __ = require('highland')
-const {DateTime} = require('luxon')
 const MongoStream = require('./MongoStream')
-const mongoutils = require('./mongoutils')
 
 const logger = item => {
   tracer.debug(item)
   return item
 }
 
-const createTimeChunks = async (options) => {
-  const increment = options.increment || {days: 1}
-  const begin = DateTime.fromISO(options.begin)
-  const end = DateTime.fromISO(options.end)
-  const timeChunks = []
-  let chunkBegin = begin
-  while (chunkBegin < end) {
-    const timeChunk = {
-      begin: chunkBegin,
-      end: chunkBegin.plus(increment)
-    }
-    timeChunks.push(timeChunk)
-    chunkBegin = timeChunk.end
-  }
-  return timeChunks
-}
-
-const prepareQuery = (transform) => {
-  // tracer.debug(transform.options)
-  const options = transform.options || {}
-  const begin = options.begin || DateTime.local().minus({minutes: 60}).toISO()
-  const end = options.end || DateTime.local().toISO()
-  const timeRange = mongoutils.rangeQuery(begin, end)
-  // const query = {_id: {
-  //   $gte: mongoutils.objectIdfromISO(begin),
-  //   $lte: ObjectId.createFromTime(DateTime.fromISO(end).ts / 1000)
-  // }}
-  tracer.trace(`Import: ${transform.source.collection} --> ${transform.sink.collection}`)
-  return Object.assign({}, transform, {query: timeRange})
-}
-
-const importCollection = async (transform, done) => {
+const migrateCollection = async (transform, done) => {
   const sinkDataStore = global[transform.sink.datastore]
   const sinkStream = new MongoStream(sinkDataStore, transform.sink.collection, {upsert: true})
   sinkStream.on('finish', async () => {
@@ -76,4 +43,4 @@ const importCollection = async (transform, done) => {
     .pipe(sinkStream)
 }
 
-module.exports = util.promisify(importCollection)
+module.exports = util.promisify(migrateCollection)
