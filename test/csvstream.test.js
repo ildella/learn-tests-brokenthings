@@ -3,7 +3,7 @@ process.on('unhandledRejection', (reason, p) => {
 })
 const __ = require('highland')
 const stream = require('stream')
-const csvstream = require('../src/csvstream')
+const csvstream = require('../js/csvstream')
 const context = {
   source: './assets/sample.csv'
 }

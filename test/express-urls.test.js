@@ -1,6 +1,6 @@
 'use strict'
 const supertest = require('supertest')
-const client = supertest(require('../src/api'))
+const client = supertest(require('../js/api'))
 
 test('path1', async () => {
   const response = await client.get('/path1')
