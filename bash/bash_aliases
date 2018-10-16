@@ -1,0 +1,16 @@
+alias ll='ls -alFtr'
+alias la='ls -A'
+alias l='ls -CFltr'
+alias gs='git status'
+alias gd='git diff'
+alias gdno='git diff --name-only'
+alias gf='git fetch'
+alias gb='git branch'
+alias gg='git log --graph --oneline --all'
+alias r='redis-cli'
+alias folder="du -sk * | sort -n"
+alias s="ddgr"
+alias dl="doctl compute droplet list"
+alias di="doctl compute image list"
+alias dr="doctl compute region list"
+alias ds="doctl compute size list"
