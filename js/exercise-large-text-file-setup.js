@@ -4,7 +4,7 @@ const stream = require('stream')
 
 // const inputStream = fs.createReadStream('/home/ildella/Documents/exerciselargetext/by_date/itcont_2018_20180422_20180705.txt')
 const inputStream = fs.createReadStream('input-sample')
-// const outputStream = fs.createWriteStream('sample')
+const outputStream = fs.createWriteStream('stream-output')
 // const outputStream = new stream()
 let counter = 0
 
@@ -14,7 +14,7 @@ inputStream.on('error', err => {
 
 const rl = readline.createInterface({
   input: inputStream,
-  // output: outputStream
+  output: outputStream
   // output: process.stdout
   // output: outputStream
 })
