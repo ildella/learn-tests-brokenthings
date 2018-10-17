@@ -2,9 +2,9 @@ const fs = require('fs')
 const readline = require('readline')
 const stream = require('stream')
 
-const inputStream = fs.createReadStream('/home/ildella/Documents/exerciselargetext/itcont.txt')
+// const inputStream = fs.createReadStream('/home/ildella/Documents/exerciselargetext/itcont.txt')
 // const inputStream = fs.createReadStream('/home/ildella/Documents/exerciselargetext/by_date/itcont_2018_20180422_20180705.txt')
-// const inputStream = fs.createReadStream('input-sample')
+const inputStream = fs.createReadStream('input-sample')
 const outputStream = fs.createWriteStream('stream-output')
 // const outputStream = new stream()
 let counter = 0
@@ -23,7 +23,8 @@ rl.on('line', line => {
   counter++
   // console.log('counter', counter)
   // if(counter == 2) { rl.close() }
-  outputStream.write(line)
+  const token = line.split('|')[7]
+  outputStream.write(`${token}\n`)
 })
 
 rl.on('close', () => {
