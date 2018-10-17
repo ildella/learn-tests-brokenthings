@@ -17,7 +17,6 @@ const rl = readline.createInterface({
   input: inputStream,
   output: outputStream
   // output: process.stdout
-  // output: outputStream
 })
 
 rl.on('line', line => {
