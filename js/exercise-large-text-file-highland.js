@@ -17,23 +17,22 @@ const logger = item => {
 
 const rl = readline.createInterface({input: inputStream})
 let counter = 0
-const generator = __((push, next) => {
-  console.log('this should run once...')
-  rl.on('line', line => {
-    counter++
-    push(null, line)
-    next()
-  })
-  rl.on('close', () => {
-    console.log(`total lines -> ${counter}`)
-    console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
-    console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
-    process.exit(0)
-  })
-})
+// const generator = __((push, next) => {
+//   rl.on('line', line => {
+//     counter++
+//     push(null, line)
+//     next()
+//   })
+//   rl.on('close', () => {
+//     console.log(`total lines -> ${counter}`)
+//     console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
+//     console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
+//     process.exit(0)
+//   })
+// })
 
 const count = () => {
-  generator
+  __(inputStream)
     // .map(stringStream)
     // .filter(string => string != undefined && string != null && string != '')
     // .map(toLines).flatten()
