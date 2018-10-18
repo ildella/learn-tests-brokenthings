@@ -12,8 +12,17 @@ process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at', p, 'reason:', reason)
 })
 
-const withHigland = require('../js/exercise-large-text-file-pipe')
+const withHigland = require('../js/exercise-large-text-file-highland')
 
-test('With Highland', async () => {
+test('Complete file', async () => {
+  // readline
+  // lines -> 13709514
+  // MORTON GROOMS, KAREN VICTORIA
+  // COLLINS, DARREN ROBERT
+  
+  // highland
+  // lines -> 13750541
+  // KIRSCHNER, THAIS S.E.
+  // CARSON, LANIE AARON
   withHigland()
 })
