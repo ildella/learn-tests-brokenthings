@@ -1,15 +1,13 @@
-// const {promisify} = require('util')
 const fs = require('fs')
 const __ = require('highland')
-const readline = require('readline')
-const stream = require('stream')
 
 // const inputStream = fs.createReadStream('data/itcont.txt')
 const inputStream = fs.createReadStream('data/itcont_2018_20180422_20180705.txt')
 // const inputStream = fs.createReadStream('input-sample')
 const outputStream = fs.createWriteStream('highland-output')
 
-const stringStream = data => { return Buffer.from(data).toString() }
+const stringStream = data => Buffer.from(data).toString()
+const toLines = data => data.split(/\r?\n/)
 const logger = item => {
   console.log(item)
   return item
@@ -19,22 +17,31 @@ const run = () => {
   let counter = 0
   __(inputStream)
     .map(stringStream)
-    // .through(stream => {
-    //   console.log(stream)
-    // })
+    .filter(string => string != undefined && string != null && string != '')
+    .map(toLines).flatten()
     .filter(line => {
       counter++
-      console.log(counter)
+      // console.log(counter)
       // const valid = counter == 432
       // console.log(valid)
       // return counter == 432
       return true
     })
     // .map(logger)
-    .map(line => line.split('|')[7])
-    .pipe(outputStream)
-}
+    // .map(line => line.split('|')[7])
+    .done(() => console.log('DONE'))
+    // .pipe(outputStream)
 
-// module.exports = promisify(run)
+  inputStream.on('close', (err) => {
+    console.error(err)
+    console.log('INPUT - THE END')
+    console.log(`total lines -> ${counter}`)
+  })
+  outputStream.on('close', (err) => {
+    console.error(err)
+    console.log('OUTPUT - THE END')
+    console.log(`total lines -> ${counter}`)
+  })
+}
 
 run()

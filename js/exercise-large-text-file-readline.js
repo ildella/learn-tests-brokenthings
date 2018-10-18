@@ -31,6 +31,7 @@ rl.on('line', line => {
 // MORTON GROOMS, KAREN VICTORIA
 // COLLINS, DARREN ROBERT
 // total lines -> 13709514
+// or                  13750541 ?
 
 rl.on('close', () => {
   console.log('\ntotal lines ->', counter)
