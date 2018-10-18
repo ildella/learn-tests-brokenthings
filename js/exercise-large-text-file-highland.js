@@ -21,14 +21,13 @@ const run = () => {
     .map(toLines).flatten()
     .filter(line => {
       counter++
-      // console.log(counter)
-      // const valid = counter == 432
-      // console.log(valid)
-      // return counter == 432
       return true
     })
-    // .map(logger)
-    // .map(line => line.split('|')[7])
+    .filter(line => {
+      return counter == 432 || counter == 43243
+    })
+    .map(line => line.split('|')[7])
+    .map(logger)
     .done(() => console.log('DONE'))
     // .pipe(outputStream)
 
@@ -37,11 +36,11 @@ const run = () => {
     console.log('INPUT - THE END')
     console.log(`total lines -> ${counter}`)
   })
-  outputStream.on('close', (err) => {
-    console.error(err)
-    console.log('OUTPUT - THE END')
-    console.log(`total lines -> ${counter}`)
-  })
+  // outputStream.on('close', (err) => {
+  //   console.error(err)
+  //   console.log('OUTPUT - THE END')
+  //   console.log(`total lines -> ${counter}`)
+  // })
 }
 
 run()
