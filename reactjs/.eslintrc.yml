@@ -1,0 +1,12 @@
+extends: ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"]
+plugins: ["react", "import", "jest"]
+parserOptions: 
+  sourceType: module  
+  ecmaVersion: 2017
+  ecmaFeatures:
+    jsx: true
+    modules: true
+env: 
+  browser: true
+rules: 
+  no-console: warn
