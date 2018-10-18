@@ -15,42 +15,46 @@ const logger = item => {
   return item
 }
 
-const rl = readline.createInterface({
-  input: inputStream
-})
-let called = 0
-const generatedStream = __((push, next) => {
+const rl = readline.createInterface({input: inputStream})
+let counter = 0
+const generator = __((push, next) => {
+  console.log('this should run once...')
   rl.on('line', line => {
-    called++
+    counter++
     push(null, line)
     next()
+  })
+  rl.on('close', () => {
+    console.log(`total lines -> ${counter}`)
+    console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
+    console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
+    process.exit(0)
   })
 })
 
 const count = () => {
-  let counter = 0
-  generatedStream
+  generator
     // .map(stringStream)
     // .filter(string => string != undefined && string != null && string != '')
     // .map(toLines).flatten()
-    .map(logger)
-    .filter(line => {
-      counter++
-      return true
-    })
-    .filter(line => {
-      return counter == 432 || counter == 43243
-    })
+    // .filter(line => {
+    //   counter++
+    //   return true
+    // })
+    // .filter(line => {
+    //   return counter == 432 || counter == 43243
+    // })
     .map(line => line.split('|')[7])
+    .map(logger)
     .done(() => console.log(`total lines -> ${counter}`))
     // .pipe(outputStream)
 
-  inputStream.on('close', (err) => {
-    console.error(err)
-    console.log('INPUT - THE END')
-    console.log(`total called -> ${called}`)
-    console.log(`total lines -> ${counter}`)
-  })
+  // inputStream.on('close', (err) => {
+  //   console.error(err)
+  //   console.log('INPUT - THE END')
+  //   console.log(`total called -> ${called}`)
+  //   console.log(`total lines -> ${counter}`)
+  // })
   // outputStream.on('close', (err) => {
   //   console.error(err)
   //   console.log('OUTPUT - THE END')
