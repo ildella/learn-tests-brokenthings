@@ -70,6 +70,7 @@
     "jasmine": "node_modules/.bin/jasmine",
     "depcheck": "node_modules/depcheck/bin/depcheck",
     "eslint": "node_modules/eslint/bin/eslint.js .",
-    "eslint-print-all": "node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml"
+    "eslint-print-all": "node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml",
+    "docker": "docker build -t ildella/learn-test-brokenthings-server ."
   }
 }
