@@ -8,6 +8,7 @@ This is the repository for all the code I write to learn.
 * DevOps code (aka: Infrastructure Code). Or bash :)
 
 [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ildella/2018)
+[![Build Status](https://travis-ci.com/ildella/learn-tests-brokenthings.svg?branch=master)](https://travis-ci.com/ildella/learn-tests-brokenthings)
 
 ## What's inside
 
