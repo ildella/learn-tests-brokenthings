@@ -1,5 +1,7 @@
 language: node_js
-cache: npm
+# cache: npm
 node_js:
   - "10"
-before_script: cd nodejs
+before_script: 
+  cd nodejs
+  ls -l
