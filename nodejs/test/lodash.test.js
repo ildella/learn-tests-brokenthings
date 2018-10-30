@@ -105,3 +105,10 @@ test('remap with empty mapping', () => {
 
   console.log(remapped)
 })
+
+test('unique', () => {
+  const array = [1, 2, 3, 2, 3]
+  const unique = _.uniq(array)
+  expect(unique).toHaveLength(3)
+  expect(array).toHaveLength(5)
+})

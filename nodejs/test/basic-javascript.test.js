@@ -57,3 +57,25 @@ test('load json from js file', () => {
   console.log(json)
   expect(json.a).toBe('a')
 })
+
+test('sort array', () => {
+  const array=['237','124','255','124','366','255']
+  array.sort()
+  console.log(array)
+})
+
+test('new unique array w/ ES5 filter', () => {
+  const array=['237','124','255','124','366','255']
+  const unique = array.filter((value, index, self) => {
+    return self.indexOf(value) === index
+  })
+  expect(unique).toHaveLength(4)
+  expect(array).toHaveLength(6)
+})
+
+test('new unique array w/ ES6 Set', () => {
+  const array=['237','124','255','124','366','255']
+  const unique = Array.from(new Set(array))
+  expect(unique).toHaveLength(4)
+  expect(array).toHaveLength(6)
+})
