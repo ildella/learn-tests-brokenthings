@@ -28,4 +28,4 @@ More to come...
 
 ## Why this name
 It's inspired by an episode of Game of Thrones, the TV Series, titled [Cripple, Bastards, and Broken Things](http://awoiaf.westeros.org/index.php/Cripples,_Bastards,_and_Broken_Things)
-The reason is that today, March 16th 2018, I decided to create this mostly as the repo for broken things that I want to share with other people, especially myself in the future, to remember the good times spent fixing things and learning stuff.
+The reason is that today, March 16th 2018, I decided to create this mostly as the repo for broken things that I want to share with other people, especially myself in the future, to remember the good times spent fixing code and learning things. 
