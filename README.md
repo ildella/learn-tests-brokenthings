@@ -1,9 +1,13 @@
 # Learn, Test, and Broken Things
-This is my repository for all code I write to learn stuff. 
-The code will mostly be:
-1. Javascript. NodeJS really
-2. Maybe some React :)
-3. Bash. Because it hurts.
+
+This is the repository for all the code I write to learn.
+
+* mostly Javascript (Node.js, ES6+)
+* Some ReactJW
+* All tests + linters + code coverage tools
+* DevOps code (aka: Infrastructure Code). Or bash :)
+
+[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ildella/2018)
 
 ## Content
 What I do commit to push here (see what I did here?):
