@@ -71,6 +71,8 @@
     "depcheck": "node_modules/depcheck/bin/depcheck",
     "eslint": "node_modules/eslint/bin/eslint.js .",
     "eslint-print-all": "node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml",
-    "docker": "docker build -t ildella/learn-test-brokenthings-server ."
+    "docker-build": "docker build -t ildella/learn-test-brokenthings-server .",
+    "docker-run": "docker run -p 49160:3456 -d ildella/learn-tests-brokenthings-server",
+    "server": "node src/server.js"
   }
 }

@@ -1,19 +1,20 @@
-# Learn, Test, and Broken Things
+# Learn, Tests, and Broken Things
 
-This is the repository for all the code I write to learn.
+A personal repo where I can collect sample code for many use cases and techonlogies
 
-* mostly Javascript (Node.js, ES6+)
-* Some ReactJW
-* All tests + linters + code coverage tools
-* DevOps code (aka: Infrastructure Code). Or bash :)
+* The language is Javascript (ES6+). Mostly Node.js, some React
+* Tests and code I use to learn libraries and tools
+* My best practices for tests, linters, code coverage, continuous integrations.
+* DevOps (aka: Infrastructure Code).
+* Various stuff I like to share, like my bash aliases and some bash scripts I find useful
+* Articles / Guides / How Tos... (coming soon...)
 
 [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ildella/2018)
 [![Build Status](https://travis-ci.com/ildella/learn-tests-brokenthings.svg?branch=master)](https://travis-ci.com/ildella/learn-tests-brokenthings)
 
-## What's inside
+## Highligths
 
-I am adding code when I have time with basic functionalities of different technologies. 
-For example:
+### Websocket Server + React
 
 ```bash
 cd nodejs && npm install && node src/websocket-server.js
