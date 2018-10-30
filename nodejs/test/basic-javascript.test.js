@@ -79,3 +79,12 @@ test('new unique array w/ ES6 Set', () => {
   expect(unique).toHaveLength(4)
   expect(array).toHaveLength(6)
 })
+
+test('sum undefined', () => {
+  let a = 0
+  a += 1
+  expect(a).toBe(1)
+  a += undefined
+  expect(a).toBe(NaN)
+})
+
