@@ -5,7 +5,7 @@ test('shuffle results for each list', () => {
   const form = new FormData()
   form.append('akey', 'avalue')
   Object.keys(o).forEach(key => form.append(key, o[key]))
-  console.log(form)
+  // console.log(form)
 })
 
 // client.interceptors.response.use(response => {

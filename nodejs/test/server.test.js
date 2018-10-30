@@ -1,7 +1,7 @@
 'use strict'
 require('dotenv').config()
 const supertest = require('supertest')
-const client = supertest(require('../src/api'))
+const client = supertest(require('../src/sample-api-routes'))
 
 test('Server up and running', async () => {
   const response = await client.get(`/`)

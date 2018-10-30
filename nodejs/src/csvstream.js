@@ -1,4 +1,5 @@
 const stream = require('stream')
+const {promisify} = require('util')
 
 class MockOutputStream extends stream.Writable {
   constructor () {
@@ -19,7 +20,7 @@ class MockOutputStream extends stream.Writable {
   }
 }
 
-async function process (context) {
+async function run (context, cb) {
   const fs = require('fs')
   const options = {
     delimiter: ';', // default is ,
@@ -45,4 +46,4 @@ async function process (context) {
   // .pipe(writable)
 }
 
-module.exports.process = process
+module.exports.run = promisify(run)

@@ -1,9 +1,9 @@
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: ', p, 'reason:', reason)
 })
-const __ = require('highland')
-const stream = require('stream')
-const csvstream = require('../js/csvstream')
+// const __ = require('highland')
+// const stream = require('stream')
+const csvstream = require('../src/csvstream')
 const context = {
   source: './assets/sample.csv'
 }
@@ -13,7 +13,7 @@ const context = {
 // })
 
 test('Execute places stream', async () => {
-  await csvstream.process(context)
+// await csvstream.process(context)
 })
 
 // test('How to catch an uncatchable exception', async () => {

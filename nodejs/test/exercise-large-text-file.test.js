@@ -12,7 +12,7 @@ process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at', p, 'reason:', reason)
 })
 
-const withHigland = require('../js/exercise-large-text-file-highland')
+// const withHigland = require('../src/exercise-large-text-file-highland')
 
 test('Complete file', async () => {
   // readline
@@ -24,5 +24,5 @@ test('Complete file', async () => {
   // lines -> 13750541
   // KIRSCHNER, THAIS S.E.
   // CARSON, LANIE AARON
-  withHigland()
+  // withHigland()
 })
