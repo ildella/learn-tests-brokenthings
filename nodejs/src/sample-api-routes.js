@@ -5,6 +5,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 const api = express.Router()
 api.use((req, res, next) => {
+  res.set('x-api-name', pjson.name)
   res.set('x-api-version', pjson.version)
   next()
 })
@@ -27,8 +28,7 @@ api.get('/path1', (req, res) => {
 })
 
 const router = express.Router()
-router.get('/', async (req, res) => { res.status(200).json({}) })
-
+router.get('/', async (req, res) => { res.status(200).json({endpoint: 'stream'}) })
 api.use('/stream', router)
 
 const errorHandler = (err, req, res, next) => {
