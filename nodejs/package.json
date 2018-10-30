@@ -63,7 +63,8 @@
     "webtask-tools": "3.4.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jest --watch",
+    "test": "node_modules/.bin/jest --watch",
+    "tests": "node_modules/.bin/jest",
     "watch": "nodemon src/server.js",
     "mocha": "node_modules/mocha/bin/mocha -w",
     "jasmine": "node_modules/.bin/jasmine",
