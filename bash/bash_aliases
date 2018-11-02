@@ -1,6 +1,6 @@
-alias ll='ls -alFtr'
+alias ll='ls -alFtrh'
+alias l='ls -CFltrh'
 alias la='ls -A'
-alias l='ls -CFltr'
 alias gs='git status'
 alias gd='git diff'
 alias gdno='git diff --name-only'
