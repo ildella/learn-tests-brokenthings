@@ -93,13 +93,17 @@ test('Function name and toStringTag', () => {
 })
 
 test('is Promise.promisifyAll() in yet?', async () => {
-  Object.values(model).forEach(f => console.log(f[Symbol.toStringTag] === 'AsyncFunction'))
   const asyncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] === 'AsyncFunction')
   const syncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] !== 'AsyncFunction')
-  // const functions = Object.values(model).filter(f => f.includes('AsyncFunction'))
   const promisifiedAsyncFunctions = asyncFunctions.map(f => promisify(f))
   console.log(asyncFunctions)
   console.log(syncFunctions)
-  // const promisifiedModel =
-  // const promisifiedModel = Promise.promisifyAll(model)
+  const promisifiedModel = {}
+  promisifiedAsyncFunctions.forEach(f => promisifiedModel[f.name] = f)
+  syncFunctions.forEach(f => promisifiedModel[f.name] = f)
+  console.log(model)
+  console.log(promisifiedModel)
+  console.log(promisifiedModel.fetch(99))
+  console.log(model.fetch(99))
+  // const officialPromisifiedModel = Promise.promisifyAll(model)
 })
