@@ -1,6 +1,6 @@
 # Learn, Tests, and Broken Things
 
-A personal repo where I can collect sample code for many use cases and techonlogies
+A personal repo where I collect sample code for different use cases and techonlogies
 
 * The language is Javascript (ES6+). Mostly Node.js, some React
 * Tests and code I use to learn libraries and tools
