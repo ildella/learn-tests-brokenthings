@@ -17,7 +17,7 @@ rules:
   max-statements: [error, 20]
   max-depth: [error, 2]
   complexity: [error, 5]
-  no-console: warn
+  no-console: off
   no-multi-assign: warn
   no-multi-spaces: warn
   no-multi-str: warn

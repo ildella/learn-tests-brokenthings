@@ -1,4 +1,5 @@
-const util = require('util')
+// const util = require('util')
+const {promisify} = require('util')
 
 const job = async (param, cb) => {
   console.log('starting...')
@@ -7,9 +8,9 @@ const job = async (param, cb) => {
   }, 100)
 }
 
-const promisifiedJob = util.promisify(job)
+const promisifiedJob = promisify(job)
 
-const f1 = util.promisify(async (cb) => {
+const f1 = promisify(async (cb) => {
   const result = await promisifiedJob(1)
   cb(null, result)
 })
