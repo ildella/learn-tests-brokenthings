@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "This is my repository for all code I write to learn stuff.  All the code is probably going to be Javascript as I almost esclusively use that language since 2015.",
   "engines": {
-    "node": "8.11.3",
-    "npm": "6.1.0"
+    "node": "10.13",
+    "npm": "6.4.1"
   },
   "directories": {
     "test": "test"
