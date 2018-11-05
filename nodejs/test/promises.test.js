@@ -1,5 +1,22 @@
-// const util = require('util')
 const {promisify} = require('util')
+
+const model = {
+  fetchAll: async (param, cb) => {
+    cb(null, {result: 'ok', param: param})
+  },
+
+  info: () => {
+    return 'I am what I am'
+  },
+
+  fetch: async id => {
+    return {id: id, name: `${id}_name`}
+  }
+}
+
+const waitForIt = async (promise) => {
+  console.log('wait for it...', await promise)
+}
 
 const job = async (param, cb) => {
   console.log('starting...')
@@ -24,7 +41,65 @@ test('test return with await with promisifiedJob', async () => {
   console.log(await promisifiedJob(2))
 })
 
-// test('await does not work on non-promise, async () => {
-//   const result = await job(3)
-//   console.log(result)
-// })
+const fetchAll = promisify(model.fetchAll)
+
+test('print the basics', async () => {
+  console.log('the standard function')
+  console.log(model.info)
+  console.log('the async function')
+  console.log(model.fetchAll)
+  console.log('the promisified async function')
+  console.log(fetchAll)
+  console.log('use Promise.all and we see the pending promises')
+  console.log(Promise.all([model.fetchAll]))
+  console.log(Promise.all([fetchAll]))
+
+})
+
+test('async functions promisify', async () => {
+  fetchAll('a')
+    .then(response => console.log('boring old style...', response))
+    .catch(err => console.error(err))
+
+  const response = fetchAll('b')
+  console.log('do not wait for it...', response)
+
+  waitForIt(response)
+
+  Promise.all([fetchAll('c'), fetchAll('d')])
+    .then(values => {
+      console.log('and here are the responses from all the promises that run')
+      console.log(values)
+    })
+})
+
+test('good way to run multiple promises', async () => {
+  async function fetchFromIds (ids) {
+  // do NOT use await model.fetch(id) inside the map(). Instead:
+    const promises = ids.map(id => model.fetch(id))
+    return await Promise.all(promises)
+  }
+
+  const allItems = fetchFromIds([1, 2, 3])
+  waitForIt(allItems)
+})
+
+test('Function name and toStringTag', () => {
+  const asyncFn = async () => {}
+  // console.log(asyncFn)
+  // console.log(asyncFn[Symbol.toStringTag])
+  expect(asyncFn.name).toEqual('asyncFn')
+  expect(asyncFn[Symbol.toStringTag]).toEqual('AsyncFunction')
+})
+
+test('is Promise.promisifyAll() in yet?', async () => {
+  Object.values(model).forEach(f => console.log(f[Symbol.toStringTag] === 'AsyncFunction'))
+  const asyncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] === 'AsyncFunction')
+  const syncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] !== 'AsyncFunction')
+  // const functions = Object.values(model).filter(f => f.includes('AsyncFunction'))
+  const promisifiedAsyncFunctions = asyncFunctions.map(f => promisify(f))
+  console.log(asyncFunctions)
+  console.log(syncFunctions)
+  // const promisifiedModel =
+  // const promisifiedModel = Promise.promisifyAll(model)
+})
