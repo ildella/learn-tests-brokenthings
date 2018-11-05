@@ -45,7 +45,7 @@ Promise.all([fetchAll('c'), fetchAll('d')])
   })
 
 async function fetchFromIds (ids) {
-  // do NOT use await teamModel.fetch(id) inside the _map. Instead:
+  // do NOT use await model.fetch(id) inside the map(). Instead:
   const promises = ids.map(id => model.fetch(id))
   return await Promise.all(promises)
 }
