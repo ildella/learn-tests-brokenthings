@@ -39,7 +39,7 @@ console.log('do not wait for it...', response)
 waitForIt(response)
 
 Promise.all([fetchAll('c'), fetchAll('d')])
-  .then((values) => {
+  .then(values => {
     console.log('and here are the responses from all the promises that run')
     console.log(values)
   })
