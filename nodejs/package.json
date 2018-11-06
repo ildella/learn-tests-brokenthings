@@ -1,25 +1,33 @@
 {
   "name": "learn-tests-brokenthings",
   "version": "1.0.0",
-  "description": "This is my repository for all code I write to learn stuff.  All the code is probably going to be Javascript as I almost esclusively use that language since 2015.",
+  "description": "This is a repository where I just put stuff I learn, consolidate, try and test.",
   "engines": {
     "node": "10.13",
     "npm": "6.4.1"
   },
-  "directories": {
-    "test": "test"
-  },
+  "homepage": "https://github.com/ildella/learn-tests-brokenthings#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ildella/learn-tests-brokenthings.git"
   },
-  "keywords": [],
-  "author": "Daniele Dellafiore",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ildella/learn-tests-brokenthings/issues"
   },
-  "homepage": "https://github.com/ildella/learn-tests-brokenthings#readme",
+  "author": "Daniele Dellafiore",
+  "license": "MIT",
+  "keywords": [
+    "Javascript",
+    "NodeJS",
+    "Jest",
+    "PM2",
+    "Express-Gateway",
+    "HighlandJS",
+    "MongoDB",
+    "DigitalOcean",
+    "Terraform",
+    "Kubernetes"
+  ],
   "jest": {
     "testEnvironment": "node"
   },
