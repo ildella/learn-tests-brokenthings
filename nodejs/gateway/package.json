@@ -1,0 +1,9 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gateway.js",
+  "dependencies": {
+    "express-gateway": "1.13.0"
+  }
+}

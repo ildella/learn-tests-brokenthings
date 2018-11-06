@@ -1,0 +1,37 @@
+admin: {hostname: localhost, port: 9876}
+apiEndpoints:
+  ip: {paths: /ip}
+  docs: {paths: /api-docs*}
+  api: {paths: '*'}
+http: {port: 7070}
+pipelines:
+  ip:
+    apiEndpoints: [ip]
+    policies:
+    - proxy:
+      - action: {changeOrigin: true, serviceEndpoint: httpbin}
+  open:
+    apiEndpoints: [coconutWebhook, docs, webhooks, home]
+    policies:
+    - log:
+      - action:
+          message: ${req.method} ${req.originalUrl}
+    - proxy:
+      - action: {serviceEndpoint: api}
+
+  secured:
+    apiEndpoints: [api]
+    policies:
+    - log:
+      - action:
+          message: ${req.method} ${req.originalUrl}
+    - key-auth:
+      - action: {disableHeadersScheme: true}
+    - proxy:
+      # - action: {serviceEndpoint: api, prependPath: true, stripPath: true, ignorePath: false}
+      - action: {serviceEndpoint: api}
+policies: [key-auth, log, proxy, jwt]
+# policies: [basic-auth, cors, expression, key-auth, log, oauth2, proxy, rate-limit, jwt, rewrite]
+serviceEndpoints:
+  api: {url: 'http://localhost:3456'}
+  httpbin: {url: 'https://httpbin.org'}
