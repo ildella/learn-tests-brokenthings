@@ -3,7 +3,7 @@ apiEndpoints:
   ip: {paths: /ip}
   docs: {paths: /api-docs*}
   api: {paths: '*'}
-http: {port: 7070}
+http: {port: ${GATEWAY_PORT:-7070}}
 pipelines:
   ip:
     apiEndpoints: [ip]
@@ -34,5 +34,5 @@ pipelines:
 policies: [log, proxy, jwt]
 # policies: [basic-auth, cors, expression, key-auth, log, oauth2, proxy, rate-limit, jwt, rewrite]
 serviceEndpoints:
-  api: {url: 'http://localhost:3456'}
+  api: {url: 'http://localhost:${APP_PORT}'}
   httpbin: {url: 'https://httpbin.org'}

@@ -59,7 +59,13 @@ cd gateway && npm install && cd ..
 pm2 start ecosystem.config.js
 ```
 
+Notes:
+	* to change the gateway port: ```export PORT=xxxx```
+	* 
+
+
 Now ```curl http://localhost:7070/ip``` will give your IP address while ```curl http://localhost:7070``` will give you unauthorized. Obsiously calling directly the express server with ```curl http://localhost:3456``` will return the actual JSON. 
+
 
 This happens because in the [Gateway configuration] I've set the 'api' endpoint to be secured with
 ```yaml
