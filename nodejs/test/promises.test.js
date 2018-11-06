@@ -1,6 +1,9 @@
 const {promisify} = require('util')
 
 const model = {
+
+  prop: 'someValue',
+
   info: () => {
     return 'I am what I am'
   },
@@ -82,19 +85,36 @@ test('Function name and toStringTag', () => {
   expect(asyncFn[Symbol.toStringTag]).toEqual('AsyncFunction')
 })
 
+function className (object) {
+  return Object.prototype.toString.call(object).replace('object ', '').replace('[', '').replace(']', '')
+}
+
 test('how to build a Promise.promisifyAll() (ES2017)', async () => {
   const asyncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] === 'AsyncFunction')
   const syncFunctions = Object.values(model).filter(f => f[Symbol.toStringTag] !== 'AsyncFunction')
   const promisifiedAsyncFunctions = asyncFunctions.map(f => promisify(f))
-  // console.log(asyncFunctions)
-  // console.log(syncFunctions)
   const promisifiedModel = {}
   promisifiedAsyncFunctions.forEach(f => promisifiedModel[f.name] = f)
   syncFunctions.forEach(f => promisifiedModel[f.name] = f)
-  // console.log(model)
   // console.log(promisifiedModel)
   // console.log('crash ->', model.fetch(99))
-  console.log('pending ->', promisifiedModel.fetch(99))
-  console.log('resolved async ->', await promisifiedModel.fetch(99))
+  // console.log('pending ->', promisifiedModel.fetch(99))
+  // console.log('resolved async ->', await promisifiedModel.fetch(99))
+  expect(await promisifiedModel.fetch(99)).toEqual({id: 99, name: '99_name'})
+  // console.log(Object.getOwnPropertyDescriptors(model))
+  console.log(Object.entries(model).length)
+  console.log(Object.entries(model).forEach(entry => console.log(entry[1])))
+  console.log(Object.entries(model).forEach(entry => console.log(typeof entry[1])))
+  console.log(Object.entries(model).forEach(entry => console.log(className(entry[1]))))
+  const fields = Object.entries(model).filter(entry => typeof entry[1] != 'function')
+  expect(fields).toHaveLength(1)
+  console.log(fields)
+  // expect(fields).toEqual('["props": "someValue"]')
+  fields.forEach(entry => promisifiedModel[entry[0]] = entry[1])
+  expect(promisifiedModel.info).toBeDefined()
+  expect(promisifiedModel.fetch).toBeDefined()
+  expect(promisifiedModel.fetchAll).toBeDefined()
+  console.log(promisifiedModel)
+  expect(promisifiedModel.prop).toBe('someValue')
   // const officialPromisifiedModel = Promise.promisifyAll(model)
 })
