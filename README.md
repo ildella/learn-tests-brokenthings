@@ -61,7 +61,14 @@ pm2 start ecosystem.config.js
 
 Now ```curl http://localhost:7070/ip``` will give your IP address while ```curl http://localhost:7070``` will give you unauthorized. Obsiously calling directly the express server with ```curl http://localhost:3456``` will return the actual JSON. 
 
-TODO: how to create credentials to bypass gateway security :)
+This happens because in the [Gateway configuration] I've set the 'api' endpoint to be secured with
+```yaml
+    - jwt:
+      - action:
+          secretOrPublicKey: '...'
+```
+
+TODO: create credentials and use them from a client to access the API via the Gateway interface
 
 ## Why this name
 It's inspired by an episode of Game of Thrones, the TV Series, titled [Cripple, Bastards, and Broken Things](http://awoiaf.westeros.org/index.php/Cripples,_Bastards,_and_Broken_Things)

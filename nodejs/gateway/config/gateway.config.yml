@@ -25,12 +25,13 @@ pipelines:
     - log:
       - action:
           message: ${req.method} ${req.originalUrl}
-    - key-auth:
-      - action: {disableHeadersScheme: true}
+    - jwt:
+      - action:
+          secretOrPublicKey: '...'
     - proxy:
       # - action: {serviceEndpoint: api, prependPath: true, stripPath: true, ignorePath: false}
       - action: {serviceEndpoint: api}
-policies: [key-auth, log, proxy, jwt]
+policies: [log, proxy, jwt]
 # policies: [basic-auth, cors, expression, key-auth, log, oauth2, proxy, rate-limit, jwt, rewrite]
 serviceEndpoints:
   api: {url: 'http://localhost:3456'}
