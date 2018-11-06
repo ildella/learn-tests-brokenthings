@@ -11,7 +11,7 @@ pipelines:
     - proxy:
       - action: {changeOrigin: true, serviceEndpoint: httpbin}
   open:
-    apiEndpoints: [coconutWebhook, docs, webhooks, home]
+    apiEndpoints: [docs]
     policies:
     - log:
       - action:
