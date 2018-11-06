@@ -10,7 +10,7 @@ module.exports = {
       name: 'api',
       script: './src/server.js',
       env_watch: {watch: './src/api'},
-      port: process.env.APP_PORT,
+      port: process.env.APP_PORT || 3333,
       kill_timeout: 2200,
       wait_ready: true,
       listen_timeout: 3000,
