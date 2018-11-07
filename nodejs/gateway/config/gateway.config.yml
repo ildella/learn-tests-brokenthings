@@ -27,7 +27,8 @@ pipelines:
           message: ${req.method} ${req.originalUrl}
     - jwt:
       - action:
-          secretOrPublicKey: '...'
+          # secretOrPublicKey: '...'
+          secretOrPublicKeyFile: /home/ildella/public.pem
     - proxy:
       # - action: {serviceEndpoint: api, prependPath: true, stripPath: true, ignorePath: false}
       - action: {serviceEndpoint: api}
