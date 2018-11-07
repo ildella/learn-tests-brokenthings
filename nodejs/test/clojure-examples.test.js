@@ -28,14 +28,13 @@ const justiceLeague = [
 ]
 
 test('get the names of the team members', () => {
-  // (map #(:name %) justice-league)
-  console.log(justiceLeague.map(hero => hero.name))
+  justiceLeague.map(hero => hero.name)
 })
 
 test('filter out heroes who are not strong enough', () => {
-  console.log(justiceLeague.filter(hero => hero.strength < 30).map(hero => hero.name))
+  justiceLeague.filter(hero => hero.strength < 30).map(hero => hero.name)
 })
 
 test('get all vehicles available to the Justice League', () => {
-  console.log(justiceLeague.map(hero => hero.vehicles).filter(vehicles => vehicles).flat())
+  justiceLeague.map(hero => hero.vehicles).filter(vehicles => vehicles).flat()
 })
