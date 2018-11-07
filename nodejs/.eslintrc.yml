@@ -1,8 +1,8 @@
 env: {node: true, mocha: true}
 extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:security/recommended',
-  'plugin:sonarjs/recommended', 'plugin:mocha/recommended', 'plugin:jest/recommended']
+  'plugin:sonarjs/recommended', 'plugin:jest/recommended']
 parserOptions: {ecmaVersion: 2018}
-plugins: [sonarjs, mocha, chai-expect, jest]
+plugins: [sonarjs, jest]
 rules:
   eol-last: [warn, always]
   indent: [error, 2]

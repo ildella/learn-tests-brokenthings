@@ -45,3 +45,8 @@ test('rest/spread ES2018', async () => {
   expect(a).toBe(1)
   expect(x).toEqual({b: 2, c: 3})
 })
+test('flat', async () => {
+
+  const listOfLists = [[1, 2, 3], [3, 4, 5]]
+  expect(listOfLists.flat()).toEqual([1, 2, 3, 3, 4, 5])
+})
