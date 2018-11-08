@@ -121,8 +121,13 @@ test('group', () => {
     {type: 'blogpost', title: 'bar'},
     {type: 'comment', title: 'foo'}
   ]
-  __(docs).group('type')
-    .toArray(results => console.log(results))
+  __(docs)
+    .group('type')
+    .toArray(results => {
+      expect(results).toHaveLength(1)
+      expect(results[0].blogpost).toHaveLength(2)
+      expect(results[0].comment).toHaveLength(1)
+    })
 })
 
 test('basic generator', () => {
@@ -152,4 +157,32 @@ test('basic generator', () => {
     //   expect(counter).toBe(2)
     //   console.log(results)
     // })
+})
+
+test('generator with group', () => {
+  const output = require('fs').createWriteStream('../o1')
+  let sent = 0
+  let counter = 0
+  const generator = (push, next) => {
+    if (sent > 3) {
+      push(null, __.nil)
+      return
+    }
+    sent++
+    push(null, {type: 't', value: sent})
+    next()
+  }
+  __(generator)
+    .map(item => {
+      counter++
+      return item
+    })
+    .map(logger)
+    // .group('type')
+    // .map(logger)
+    // .pipe(output)
+    .toArray(results => {
+      expect(counter).toBe(4)
+      console.log(results)
+    })
 })

@@ -22,10 +22,10 @@ const generator = (push, next) => {
     // next()
   })
   rl.on('close', () => {
+    push(null, __.nil)
     console.log(`line counter -> ${counter}`)
     console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
     console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
-    // next()
   })
 }
 
@@ -52,7 +52,6 @@ const countDonationsPerMonth = () => {
     //   hCounter++
     //   return item
     // })
-    .map(logger)
     .group('month')
     .map(logger)
     // .map(item => {
