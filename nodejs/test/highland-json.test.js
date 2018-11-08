@@ -31,9 +31,19 @@ test('use JSONStream stringify - there are new lines in the output', () => {
 })
 
 test('pipe to file', async () => {
-  const output = fs.createWriteStream('output.json')
+  const output = fs.createWriteStream('../output.json')
   const stream = __(input)
     .through(stringify)
     .pipe(output)
   console.log(`Stream to '${stream.path}'. Closed? ${stream.closed}`)
+})
+
+test('stringify behavior with an array with one string', async () => {
+  const input = ['not a json object']
+  __(input)
+    .through(stringify)
+    .toArray(results => {
+      console.log(results)
+      expect(results).toHaveLength(4)
+    })
 })
