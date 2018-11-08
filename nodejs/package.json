@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is a repository where I just put stuff I learn, consolidate, try and test.",
   "engines": {
-    "node": "10.13",
+    "node": "11",
     "npm": "6.4.1"
   },
   "homepage": "https://github.com/ildella/learn-tests-brokenthings#readme",
