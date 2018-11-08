@@ -8,18 +8,19 @@ unzip indiv18.zip -d Documents/exerciselargetext
 const fs = require('fs')
 const readline = require('readline')
 
-process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at', p, 'reason:', reason)
+process.on('unhandledRejection', reason => {
+  console.error('Unhandled Rejection', reason)
 })
 
 // const withHigland = require('../src/exercise-large-text-file-highland')
+// const noStreams = require('../src/exercise-large-text-file-readline')
 
 test('Complete file', async () => {
   // readline
   // lines -> 13709514
   // MORTON GROOMS, KAREN VICTORIA
   // COLLINS, DARREN ROBERT
-  
+
   // highland
   // lines -> 13750541
   // KIRSCHNER, THAIS S.E.

@@ -3,7 +3,7 @@ let called = 0
 const highlandStream = __((push, next) => {
   setTimeout(() => {
     if (called > 10) {
-      process.exit(0)
+      return
     }
     called++
     console.log('pushing...')

@@ -109,3 +109,14 @@ test('use stream from a function', () => {
     console.log(items)
   })
 })
+
+const logger = item => {
+  console.log(item)
+  return item
+}
+
+test('basic generator', () => {
+  const hs = __((push, next) => {
+  })
+  hs.map(logger).done(() => console.log('DONE'))
+})
