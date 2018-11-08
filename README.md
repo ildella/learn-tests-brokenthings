@@ -1,5 +1,8 @@
 # Learn, Tests, and Broken Things
 
+[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ildella/2018)
+[![Build Status](https://travis-ci.com/ildella/learn-tests-brokenthings.svg?branch=master)](https://travis-ci.com/ildella/learn-tests-brokenthings)
+
 A personal repo where I collect sample code for different use cases and techonlogies
 
 * The language is Javascript (ES6+). Mostly Node.js, some React
@@ -8,9 +11,6 @@ A personal repo where I collect sample code for different use cases and techonlo
 * DevOps (aka: Infrastructure Code).
 * Various stuff I like to share, like my bash aliases and some bash scripts I find useful
 * Articles / Guides / How Tos... (coming soon...)
-
-[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/ildella/2018)
-[![Build Status](https://travis-ci.com/ildella/learn-tests-brokenthings.svg?branch=master)](https://travis-ci.com/ildella/learn-tests-brokenthings)
 
 ## Some setup
 
@@ -40,6 +40,17 @@ pm2 install pm2-logrotate
 
 ## Runnable stuff
 
+### Test first
+
+```bash
+cd nodejs
+npm test
+```
+
+Most of the learning is in form of working tests. I use Jest. Yes I did try the others (jasmine, mocha) and yes, I like Jest more. But I like the chai.expect more than Jest expect. Anyway, the tests are the core of this project.
+
+Some learning code is just in the [src folder](nodejs/src) anyway, because did not make sense, or I was too lazy, to put in test form
+
 ### Websocket Server + React
 
 ```bash
@@ -60,9 +71,9 @@ pm2 start ecosystem.config.js
 ```
 
 Notes:
+
 	* to change the gateway port: ```export PORT=xxxx```
 	* 
-
 
 Now ```curl http://localhost:7070/ip``` will give your IP address while ```curl http://localhost:7070``` will give you unauthorized. Obsiously calling directly the express server with ```curl http://localhost:3456``` will return the actual JSON. 
 
