@@ -186,3 +186,13 @@ test('generator with group', () => {
       console.log(results)
     })
 })
+
+test('reduce', () => {
+  const add = function (a, b) {
+    return a + b
+  }
+
+  __([1, 2, 3, 4])
+    .reduce(0, add)
+    .toArray(result => expect(result[0]).toBe(10))
+})

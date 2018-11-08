@@ -24,8 +24,8 @@ const generator = (push, next) => {
   rl.on('close', () => {
     push(null, __.nil)
     console.log(`line counter -> ${counter}`)
-    console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
-    console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
+    // console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
+    // console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
   })
 }
 
@@ -39,33 +39,28 @@ const countWithReadline = () => {
     .done(() => console.log('Highland> mic drop'))
 }
 
-const hCounter = 0
-const {stringify} = require ('highland-json')
-const output = fs.createWriteStream('../houtput.json')
+let hCounter = 0
+// const {stringify} = require ('highland-json')
+// const output = fs.createWriteStream('../houtput.json')
+const months = {}
+const groupByMonth = function (a, b) {
+  months[b.month] ? months[b.month]++ : months[b.month] = 1
+  return b
+}
 const countDonationsPerMonth = () => {
   __(generator)
-    // .map(date => date.substring(4, 6))
-    // .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
-    .map(line => { return {month: '06', a: 2} })
-    // .filter(item => item.month === '06')
-    // .map(item => {
-    //   hCounter++
-    //   return item
-    // })
-    .group('month')
-    .map(logger)
-    // .map(item => {
-    //   const month = Object.keys(item)[0]
-    //   return {
-    //     month: month,
-    //     count: item[month].length
-    //   }
-    // })
-    // .toArray(results => console.log(results))
-    .done(() => console.log(`highland counter -> ${counter}`))
-    // .through(stringify)
+    .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
+    .map(item => {
+      hCounter++
+      return item
+    })
+    .reduce(0, groupByMonth)
+    // .group('month') <<-- this fails miserably :(
+    .done(() => {
+      console.log(months)
+      console.log(`highland counter -> ${hCounter}`)
+    })
     // .pipe(output)
-
 }
 
 // countWithReadline()
