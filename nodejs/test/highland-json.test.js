@@ -30,10 +30,10 @@ test('use JSONStream stringify - there are new lines in the output', () => {
     })
 })
 
-// test('pipe to file', async () => {
-//   const output = fs.createWriteStream('output.json')
-//   const stream = __(input)
-//     .through(stringify)
-//     .pipe(output)
-//   console.log(`Stream to '${stream.path}'. Closed? ${stream.closed}`)
-// })
+test('pipe to file', async () => {
+  const output = fs.createWriteStream('output.json')
+  const stream = __(input)
+    .through(stringify)
+    .pipe(output)
+  console.log(`Stream to '${stream.path}'. Closed? ${stream.closed}`)
+})
