@@ -41,14 +41,14 @@ const countWithReadline = () => {
 
 // const output = fs.createWriteStream('../houtput.json')
 const accumulator = {}
-const groupByMonth = function (a, item) {
+const sumByMonth = function (a, item) {
   accumulator[item.month] = (accumulator[item.month] || 0) + 1
   return item
 }
 const countDonationsPerMonth = () => {
   __(generator)
     .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
-    .reduce(0, groupByMonth)
+    .reduce(0, sumByMonth)
     .done(() => {
       console.log('Highland> donations per month:')
       console.log(accumulator)
@@ -56,5 +56,21 @@ const countDonationsPerMonth = () => {
     })
 }
 
+const occurrences = {}
+const namesOccurences = () => {
+  __(generator)
+    .map(line => line.split('|')[8])
+    .reduce(0, (a, name) => {
+      occurrences[name] = (occurrences[name] || 0) + 1
+      return name
+    })
+    .done(() => {
+      console.log('Highland> names occurrences:')
+      console.log(occurrences)
+      console.log('(mic drop)')
+    })
+}
+
 // countWithReadline()
-countDonationsPerMonth()
+// countDonationsPerMonth()
+// namesOccurences()
