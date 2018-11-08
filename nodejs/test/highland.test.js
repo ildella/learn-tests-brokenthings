@@ -115,13 +115,41 @@ const logger = item => {
   return item
 }
 
+test('group', () => {
+  const docs = [
+    {type: 'blogpost', title: 'foo'},
+    {type: 'blogpost', title: 'bar'},
+    {type: 'comment', title: 'foo'}
+  ]
+  __(docs).group('type')
+    .toArray(results => console.log(results))
+})
+
 test('basic generator', () => {
-  const highlandStream = __((push, next) => {
+  const output = require('fs').createWriteStream('../o1')
+  let sent = 0
+  let counter = 0
+  const generator = (push, next) => {
+    if (sent > 1) {
+      return
+    }
+    sent++
     push(null, 'a')
-  })
-  highlandStream
+    next()
+  }
+  __(generator)
     .map(item => {
+      counter++
       expect(item).toBe('a')
+      return item
     })
-    .done(() => console.log('DONE!'))
+    // .pipe(output)
+    .done(() => {
+      expect(counter).toBe(sent)
+      console.log('DONE', counter)
+    })
+    // .toArray(results => {
+    //   expect(counter).toBe(2)
+    //   console.log(results)
+    // })
 })

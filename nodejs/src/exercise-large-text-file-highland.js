@@ -15,20 +15,22 @@ const logger = item => {
 
 const rl = readline.createInterface({input: inputStream})
 let counter = 0
-const highlandStream = __((push, next) => {
+const generator = (push, next) => {
   rl.on('line', line => {
     counter++
     push(null, line)
+    // next()
   })
   rl.on('close', () => {
-    console.log(`total lines -> ${counter}`)
+    console.log(`line counter -> ${counter}`)
     console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
     console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
+    // next()
   })
-})
+}
 
 const countWithReadline = () => {
-  highlandStream
+  __(generator)
     .filter(line => {
       return counter == 432 || counter == 43243
     })
@@ -37,20 +39,34 @@ const countWithReadline = () => {
     .done(() => console.log('Highland> mic drop'))
 }
 
+const hCounter = 0
+const {stringify} = require ('highland-json')
+const output = fs.createWriteStream('../houtput.json')
 const countDonationsPerMonth = () => {
-  highlandStream
-    .map(date => date.substring(4, 6))
-    .group(date => date.substring(4, 6))
-    .group(line => line.split('|')[4].substring(4, 6))
-    .map(item => {
-      const month = Object.keys(item)[0]
-      return {
-        month: month,
-        count: item[month].length
-      }
-    })
+  __(generator)
+    // .map(date => date.substring(4, 6))
+    // .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
+    .map(line => { return {month: '06', a: 2} })
+    // .filter(item => item.month === '06')
+    // .map(item => {
+    //   hCounter++
+    //   return item
+    // })
     .map(logger)
-    .done(() => console.log(`total lines -> ${counter}`))
+    .group('month')
+    .map(logger)
+    // .map(item => {
+    //   const month = Object.keys(item)[0]
+    //   return {
+    //     month: month,
+    //     count: item[month].length
+    //   }
+    // })
+    // .toArray(results => console.log(results))
+    .done(() => console.log(`highland counter -> ${counter}`))
+    // .through(stringify)
+    // .pipe(output)
+
 }
 
 // countWithReadline()
