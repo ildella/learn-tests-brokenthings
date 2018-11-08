@@ -23,7 +23,7 @@ const generator = (push, next) => {
   })
   rl.on('close', () => {
     push(null, __.nil)
-    console.log(`line counter -> ${counter}`)
+    // console.log(`line counter -> ${counter}`)
     // console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
     // console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
   })
@@ -36,31 +36,24 @@ const countWithReadline = () => {
     })
     .map(line => `value at line ${counter}: ${line.split('|')[7]}`)
     .map(logger)
-    .done(() => console.log('Highland> mic drop'))
+    .done(() => console.log(`Highland> line count: ${counter}`))
 }
 
-let hCounter = 0
-// const {stringify} = require ('highland-json')
 // const output = fs.createWriteStream('../houtput.json')
-const months = {}
-const groupByMonth = function (a, b) {
-  months[b.month] ? months[b.month]++ : months[b.month] = 1
-  return b
+const accumulator = {}
+const groupByMonth = function (a, item) {
+  accumulator[item.month] = (accumulator[item.month] || 0) + 1
+  return item
 }
 const countDonationsPerMonth = () => {
   __(generator)
     .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
-    .map(item => {
-      hCounter++
-      return item
-    })
     .reduce(0, groupByMonth)
-    // .group('month') <<-- this fails miserably :(
     .done(() => {
-      console.log(months)
-      console.log(`highland counter -> ${hCounter}`)
+      console.log('Highland> donations per month:')
+      console.log(accumulator)
+      console.log('(mic drop)')
     })
-    // .pipe(output)
 }
 
 // countWithReadline()
