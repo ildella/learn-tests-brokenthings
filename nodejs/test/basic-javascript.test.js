@@ -88,3 +88,36 @@ test('sum undefined', () => {
   expect(a).toBe(NaN)
 })
 
+test('count occurrencies in an array', () => {
+  const array = [1, 2, 4, 5, 5, 4, 2, '2', 5, 5]
+  // the old way, cause everybody can do a for loop...
+  // const occurrences = {}
+  // for (let i = 0, j = array.length; i < j; i++) {
+  //   occurrences[array[i]] = (occurrences[array[i]] || 0) + 1
+  // }
+  const occurrences = array.reduce((accumulator, item) => {
+    accumulator[item] = (accumulator[item] || 0) + 1
+    return accumulator
+  }, {})
+  expect(occurrences[5]).toBe(4)
+  expect(occurrences[2]).toBe(3) // <<-- take care
+  expect(occurrences['a']).toBe(undefined)
+  expect(occurrences[undefined]).toBe(undefined)
+  expect(occurrences[null]).toBe(undefined)
+})
+
+test('Sort object by properties values', () => {
+  expect(Object.keys({'a': 1, 'b': 3, 'c': 2})).toEqual(['a', 'b', 'c',])
+  const object = {'a': 1, 'b': 3, 'c': 2}
+  const keysSorted = Object.keys(object).sort((a,b) => {return object[a]-object[b]})
+  expect(keysSorted).toEqual(['a', 'c', 'b',])
+})
+
+test('Object sort function. Extend Object.prototype OMG the crazy things! :)', () => {
+  const object = {'a': 1, 'b': 3, 'c': 2}
+  Object.prototype.sort = object => {
+    return Object.keys(object).sort((a,b) => {return object[a]-object[b]})
+  }
+  const keysSorted = Object.sort(object)
+  expect(keysSorted).toEqual(['a', 'c', 'b',])
+})
