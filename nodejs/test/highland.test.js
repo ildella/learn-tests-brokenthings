@@ -116,7 +116,12 @@ const logger = item => {
 }
 
 test('basic generator', () => {
-  const hs = __((push, next) => {
+  const highlandStream = __((push, next) => {
+    push(null, 'a')
   })
-  hs.map(logger).done(() => console.log('DONE'))
+  highlandStream
+    .map(item => {
+      expect(item).toBe('a')
+    })
+    .done(() => console.log('DONE!'))
 })
