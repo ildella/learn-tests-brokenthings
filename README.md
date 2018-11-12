@@ -21,7 +21,7 @@ I'll start adding some docs here and expand later.
 ### NodeJS toolchain
 
 ```bash
-# I use n (not nvm) as Node version manager. Why? Because.
+# I use n (not nvm) as Node version manager.
 curl -L https://git.io/n-install | bash -s -- -y
 . "$HOME/.bashrc"
 echo "n-> $(n --version)"

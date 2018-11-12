@@ -16,7 +16,7 @@ const model = {
     cb(null, {result: 'ok', param: param})
   },
 
-  search: async (param, cb) => {
+  search: async (param) => {
     return `${param} -> found!`
   }
 
