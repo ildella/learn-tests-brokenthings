@@ -23,7 +23,7 @@ test('good way to run multiple promises in ES2018', async () => {
   expect(await Promise.all(promises)).toHaveLength(3)
 })
 
-test('rest/spread ES2015', async () => {
+test('rest ES2015', async () => {
   restParam(1, 2, 3, 4, 5)
   function restParam (p1, p2, ...p3) {
     expect(p1).toBe(1)
@@ -35,7 +35,7 @@ test('rest/spread ES2015', async () => {
   expect(Math.max(...values)).toBe(100)
 })
 
-test('rest/spread ES2018', async () => {
+test('rest ES2018', async () => {
   const myObject = {
     a: 1,
     b: 2,
@@ -45,6 +45,24 @@ test('rest/spread ES2018', async () => {
   expect(a).toBe(1)
   expect(x).toEqual({b: 2, c: 3})
 })
+
+test('spread object ES2018', async () => {
+  const x = null
+  const y = {a: 1, b: 2}
+  const z = {...x, ...y}
+
+  expect(z).toEqual({a: 1, b: 2})
+  expect(z).toEqual(y)
+  expect(z).not.toBe(y)
+})
+
+test('spread array ES2018', async () => {
+  const x = [1, 2, null, 3]
+  const y = [...x, 4, 5]
+
+  expect(y).toEqual([1, 2, null, 3, 4, 5])
+})
+
 test('flat', async () => {
 
   const listOfLists = [[1, 2, 3], [3, 4, 5]]
