@@ -110,11 +110,6 @@ test('use stream from a function', () => {
   })
 })
 
-const logger = item => {
-  console.log(item)
-  return item
-}
-
 test('group', () => {
   const docs = [
     {type: 'blogpost', title: 'foo'},
@@ -130,37 +125,8 @@ test('group', () => {
     })
 })
 
-test('basic generator', () => {
-  const output = require('fs').createWriteStream('../o1')
-  let sent = 0
-  let counter = 0
-  const generator = (push, next) => {
-    if (sent > 1) {
-      return
-    }
-    sent++
-    push(null, 'a')
-    next()
-  }
-  __(generator)
-    .map(item => {
-      counter++
-      expect(item).toBe('a')
-      return item
-    })
-    // .pipe(output)
-    .done(() => {
-      expect(counter).toBe(sent)
-      console.log('DONE', counter)
-    })
-    // .toArray(results => {
-    //   expect(counter).toBe(2)
-    //   console.log(results)
-    // })
-})
-
-test('generator with group', () => {
-  const output = require('fs').createWriteStream('../o1')
+test('basic generator with group', () => {
+  // const output = require('fs').createWriteStream('../o1')
   let sent = 0
   let counter = 0
   const generator = (push, next) => {
@@ -173,16 +139,12 @@ test('generator with group', () => {
     next()
   }
   __(generator)
-    .map(item => {
-      counter++
-      return item
-    })
-    .map(logger)
-    // .group('type')
-    // .map(logger)
-    // .pipe(output)
+    .tap(() => counter++)
+    // .tap(console.log)
+    .group('type')
     .toArray(results => {
       expect(counter).toBe(4)
+      expect(sent).toBe(4)
       console.log(results)
     })
 })
