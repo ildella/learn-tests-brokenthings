@@ -58,7 +58,8 @@ test('The Iterator Symbol', () => {
 // There are a few expect() but the added clutter is compensated by the clarify they bring
 // We see clearly what's the iterator, what the iterable and where Symbol.iterator is used for
 test('A simple iterable', () => {
-  const mock = jest.fn()
+  const mock1 = jest.fn()
+  const mock2 = jest.fn()
 
   const iterable = {
     [Symbol.iterator] () {
@@ -66,7 +67,7 @@ test('A simple iterable', () => {
       const iterator = {
         next () {
           step++
-          mock()
+          mock1()
           if (step < 3) {
             return {value: 'some value', done: false}
           }
@@ -80,9 +81,11 @@ test('A simple iterable', () => {
 
   for (const item of iterable) {
     console.log(item)
+    mock2()
     expect(item).toBe('some value')
   }
-  expect(mock).toHaveBeenCalledTimes(3)
+  expect(mock1).toHaveBeenCalledTimes(3)
+  expect(mock2).toHaveBeenCalledTimes(2)
 })
 
 test('Everyone is crazy about the good old Fibonacci', () => {
