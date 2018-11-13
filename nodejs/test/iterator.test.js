@@ -111,3 +111,6 @@ test('Everyone is crazy about the good old Fibonacci', () => {
   expect(mock).toHaveBeenCalledTimes(15)
   expect('Fibonacci Iterable').not.toBe('ever stopped. It will go on forever, we stop it in the for loop')
 })
+
+// test('infinite iterator', () => {
+// })

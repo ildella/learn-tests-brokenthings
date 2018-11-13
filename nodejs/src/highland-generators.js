@@ -1,6 +1,6 @@
 /**
   There is already a generator test in highland.test.js
-  This class provide a better console.log output to better show what is going on
+  This example provides a more clear output that better shows what is going on
 **/
 
 const __ = require('highland')
