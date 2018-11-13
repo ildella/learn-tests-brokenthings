@@ -1,14 +1,3 @@
-// const iterable = {
-//   [Symbol.iterator]: function*() {
-//     let n = 0
-//     while (true) {
-//       // console.log('pre yield...')
-//       yield n++
-//       // console.log('... yield done!')
-//     }
-//   }
-// }
-
 const simpleIterable = {
   [Symbol.iterator] () {
     let step = 0
