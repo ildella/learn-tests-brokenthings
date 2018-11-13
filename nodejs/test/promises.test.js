@@ -165,3 +165,17 @@ test('and what happens if we reject the return promise?', async () => {
   await expect(Promise.resolve(promise)).resolves.toEqual('3 -> found!')
   // await expect(Promise.reject(promise)).rejects.toEqual({}) // the reject is not specified, it stays a promise?
 })
+
+test('ok, we do not have a basic promise yet...', async () => {
+  const p = param => new Promise((resolve, reject) => {
+    if (!param) return reject('error message')
+    resolve({result: 'ok'})
+  })
+  console.log(p(false))
+  await expect(Promise.resolve(p(true))).resolves.toEqual({result: 'ok'})
+  await expect(Promise.resolve(p(false))).rejects.toEqual('error message')
+  p(true).then(result => console.log(result))
+  p(false)
+    .then(result => console.log(result))
+    .catch(err => console.error(err))
+})
