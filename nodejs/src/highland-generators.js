@@ -8,6 +8,7 @@ let called = 0
 const highlandGenerator = (push, next) => {
   setTimeout(() => {
     if (called >= 10) {
+      push(null, __.nil)
       return
     }
     called++
