@@ -1,6 +1,11 @@
+/**
+  There is already a generator test in highland.test.js
+  This class provide a better console.log output to better show what is going on
+**/
+
 const __ = require('highland')
 let called = 0
-const generator = (push, next) => {
+const highlandGenerator = (push, next) => {
   setTimeout(() => {
     if (called >= 10) {
       return
@@ -13,7 +18,7 @@ const generator = (push, next) => {
   }, 100)
 }
 
-__(generator)
+__(highlandGenerator)
   .map(item => {
     console.log(`I can see you here ${item}`)
     return item
