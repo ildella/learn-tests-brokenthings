@@ -64,7 +64,13 @@ test('spread array ES2018', async () => {
 })
 
 test('flat', async () => {
-
   const listOfLists = [[1, 2, 3], [3, 4, 5]]
   expect(listOfLists.flat()).toEqual([1, 2, 3, 3, 4, 5])
 })
+
+test('fs with promises', async () => {
+  const fs = require('fs').promises
+  const file = await fs.readFile('../data/input.json')
+  console.log(file)
+})
+
