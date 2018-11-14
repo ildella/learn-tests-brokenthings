@@ -68,9 +68,21 @@ test('flat', async () => {
   expect(listOfLists.flat()).toEqual([1, 2, 3, 3, 4, 5])
 })
 
-test('fs with promises', async () => {
-  const fs = require('fs').promises
-  const file = await fs.readFile('../data/input.json')
-  console.log(file)
-})
+const yaml = require('js-yaml')
+const fs = require('fs').promises
+const __ = require('highland')
+// const readFile = async path => await fs.readFile(path)
 
+test('fs with promises', async () => {
+  const path = '../data/input.yml'
+  // console.log(readFile(path))
+  // console.log(await readFile(path))
+  const json = yaml.safeLoad(await fs.readFile(path))
+  expect(json.location).toBe('London')
+
+  const readFile = async path => await fs.readFile(path)
+  __([path])
+    .map(__.wrapCallback(readFile)).sequence()
+    .tap(console.log)
+    .toArray(results => console.log(results))
+})

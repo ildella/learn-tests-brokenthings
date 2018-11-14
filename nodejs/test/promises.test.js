@@ -16,7 +16,7 @@ const model = {
     cb(null, {result: 'ok', param: param})
   },
 
-  search: async (param) => {
+  search: async param => {
     return `${param} -> found!`
   }
 
@@ -118,7 +118,7 @@ test('how to build a Promise.promisifyAll() (ES2017)', async () => {
   expect(promisifiedModel.info).toBeDefined()
   expect(promisifiedModel.fetch).toBeDefined()
   expect(promisifiedModel.fetchAll).toBeDefined()
-  console.log(promisifiedModel)
+  // console.log(promisifiedModel)
   expect(promisifiedModel.prop).toBe('someValue')
   // const officialPromisifiedModel = Promise.promisifyAll(model)
 })
@@ -126,8 +126,7 @@ test('how to build a Promise.promisifyAll() (ES2017)', async () => {
 test('callback, returns, promises OhMy!', async () => {
   const fn = async () => {
     // const promise = model.fetch(1) // --> ERROR cb not a function
-    const promise = model.search('a')
-    console.log(promise)
+    model.search('a')
     const response = await fetch(1)
     expect(response).toEqual({id: 1, name: '1_name'})
     return response
@@ -152,7 +151,7 @@ test('await "the promise"', async () => {
 
 test('async function with return is, indeed, a Promise', () => {
   const promise = model.search(3)
-  console.log(promise)
+  console.log('model.search is a...', promise)
   // IMPORTANT: here the return is mandatory for the test to pass
   return expect(Promise.resolve(promise)).resolves.toEqual('3 -> found!')
 })
@@ -160,7 +159,6 @@ test('async function with return is, indeed, a Promise', () => {
 // IMPORTANT: from now on we use await so we do not have to return the expect
 test('and what happens if we reject the return promise?', async () => {
   const promise = model.search(3)
-  console.log(promise)
   await expect(Promise.reject(new Error('ARGH!'))).rejects.toThrow('ARGH') // is this a bug?
   await expect(Promise.resolve(promise)).resolves.toEqual('3 -> found!')
   // await expect(Promise.reject(promise)).rejects.toEqual({}) // the reject is not specified, it stays a promise?
