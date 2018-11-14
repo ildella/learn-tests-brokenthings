@@ -149,6 +149,30 @@ test('basic generator with group', () => {
     })
 })
 
+test('generator with setTimeout', () => {
+  let called = 0
+  const highlandGenerator = (push, next) => {
+    setTimeout(() => {
+      if (called >= 10) {
+        push(null, __.nil)
+        return
+      }
+      called++
+      console.log('pushing...')
+      push(null, `call-${called}`)
+      console.log('... pushed!')
+      next()
+    }, 100)
+  }
+
+  __(highlandGenerator)
+    .map(item => {
+      console.log(`I can see you here ${item}`)
+      return item
+    })
+    .toArray(results => console.log('GENERATOR DONE', results))
+})
+
 test('reduce', () => {
   const add = function (a, b) {
     return a + b

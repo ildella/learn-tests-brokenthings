@@ -72,6 +72,11 @@ const yaml = require('js-yaml')
 const fs = require('fs').promises
 const __ = require('highland')
 // const readFile = async path => await fs.readFile(path)
+const readFile = async path => {
+  const file = await fs.readFile(path)
+  console.log(file)
+  return file
+}
 
 test('fs with promises', async () => {
   const path = '../data/input.yml'
@@ -80,8 +85,12 @@ test('fs with promises', async () => {
   const json = yaml.safeLoad(await fs.readFile(path))
   expect(json.location).toBe('London')
 
-  const readFile = async path => await fs.readFile(path)
+  // for (const line of readLinesFromFile(fileName)) {
+  //   console.log(line)
+  // }
+
   __([path])
+    .tap(console.log)
     .map(__.wrapCallback(readFile)).sequence()
     .tap(console.log)
     .toArray(results => console.log(results))
