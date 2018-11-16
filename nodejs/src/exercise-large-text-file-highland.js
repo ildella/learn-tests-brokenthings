@@ -1,17 +1,10 @@
 const fs = require('fs')
 const readline = require('readline')
 const __ = require('highland')
-// const stringStream = data => Buffer.from(data).toString()
 
-const inputStream = fs.createReadStream('../data/input-sample')
+// const inputStream = fs.createReadStream('../data/input-sample')
 // const inputStream = fs.createReadStream('../data/itcont_2018_20180422_20180705.txt')
-// const inputStream = fs.createReadStream('../data/itcont.txt')
-// const outputStream = fs.createWriteStream('highland-output')
-
-const logger = item => {
-  console.log(item)
-  return item
-}
+const inputStream = fs.createReadStream('../data/itcont.txt')
 
 const rl = readline.createInterface({input: inputStream})
 let counter = 0
@@ -35,11 +28,9 @@ const countWithReadline = () => {
       return counter == 432 || counter == 43243
     })
     .map(line => `value at line ${counter}: ${line.split('|')[7]}`)
-    .map(logger)
     .done(() => console.log(`Highland> line count: ${counter}`))
 }
 
-// const output = fs.createWriteStream('../houtput.json')
 const accumulator = {}
 const sumByMonth = function (a, item) {
   accumulator[item.month] = (accumulator[item.month] || 0) + 1
@@ -72,5 +63,5 @@ const namesOccurences = () => {
 }
 
 // countWithReadline()
-// countDonationsPerMonth()
+countDonationsPerMonth()
 // namesOccurences()
