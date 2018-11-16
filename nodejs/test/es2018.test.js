@@ -80,7 +80,7 @@ const readFile = async path => {
 const __ = require('highland')
 
 test('fs with promises', async () => {
-  const path = '../data/input.yml'
+  const path = '../input.yml'
   const json = yaml.safeLoad(await fs.readFile(path))
   expect(json.location).toBe('London')
 
