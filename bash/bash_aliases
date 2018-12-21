@@ -19,3 +19,5 @@ alias dr="doctl compute region list"
 alias ds="doctl compute size list"
 alias g='graphql'
 alias geo="curl https://httpbin.org/ip |jq '.origin' |xargs geoiplookup"
+alias wifi='nmcli device wifi connect'
+alias w='wifi'
