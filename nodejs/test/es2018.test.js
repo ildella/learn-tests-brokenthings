@@ -90,3 +90,24 @@ test('fs with promises', async () => {
     .tap(console.log)
     .toArray(results => console.log(results))
 })
+
+const intersection = arrays => {
+  return arrays.reduce((a, b) => a.filter(c => b.includes(c)))
+}
+
+test('intersection', () => {
+  expect(intersection([[1, 2, 3], [101, 2, 1, 10], [2, 1]])).toEqual([1, 2])
+  expect(intersection([[1, 2, 3], [101, 2, 1, 10], []])).toEqual([])
+  expect(intersection([[1, 2, 3, 1, 1], [101, 2, 1, 10], [1]])).toEqual([1, 1, 1])
+})
+
+const reverseIntersection = arrays => {
+  return arrays.reduce((a, b) => a.filter(c => !b.includes(c)))
+}
+
+test('reverseIntersection', () => {
+  expect(reverseIntersection([[1, 2], [1, 2]])).toEqual([])
+  expect(reverseIntersection([[1, 2, 3, 4], [1, 2]])).toEqual([3, 4])
+  // expect(reverseIntersection([[1, 2], [101, 2, 1, 10]])).toEqual([101, 10])
+  // expect(intersection([[1, 2], [101, 2, 1, 10]])).toEqual([])
+})

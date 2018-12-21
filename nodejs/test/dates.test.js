@@ -3,13 +3,14 @@ const {ObjectID} = require('mongodb')
 
 test('millisec, jsdate, mongo id, oh my... :(', async () => {
   console.log(DateTime.local().millisecond)
-  console.log(DateTime.local().toJSDate().getTime())
-  console.log(DateTime.local().ts)
+  const datetime = DateTime.local()
+  console.log(datetime.ts)
+  expect(datetime.ts).toBe(datetime.toJSDate().getTime())
 })
 
 test('start of', async () => {
-  console.log(DateTime.local().startOf('month'))
-  console.log(DateTime.local().endOf('month'))
+  // console.log(DateTime.local().startOf('month'))
+  // console.log(DateTime.local().endOf('month'))
 })
 
 test('calling function', async () => {
