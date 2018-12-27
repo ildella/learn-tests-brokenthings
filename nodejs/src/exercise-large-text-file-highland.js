@@ -2,9 +2,9 @@ const fs = require('fs')
 const readline = require('readline')
 const __ = require('highland')
 
-// const inputStream = fs.createReadStream('../data/input-sample')
-// const inputStream = fs.createReadStream('../data/itcont_2018_20180422_20180705.txt')
-const inputStream = fs.createReadStream('../data/itcont.txt')
+const inputStream = fs.createReadStream('data/input-sample')
+// const inputStream = fs.createReadStream('data/itcont_2018_20180422_20180705.txt')
+// const inputStream = fs.createReadStream('data/itcont.txt')
 
 const rl = readline.createInterface({input: inputStream})
 let counter = 0
@@ -62,6 +62,6 @@ const namesOccurences = () => {
     })
 }
 
-// countWithReadline()
-countDonationsPerMonth()
+countWithReadline()
+// countDonationsPerMonth()
 // namesOccurences()

@@ -71,15 +71,15 @@ test('flat', async () => {
 const fs = require('fs').promises
 const yaml = require('js-yaml')
 
-const readFile = async path => {
-  const file = await fs.readFile(path)
-  console.log(file)
+const readFile = path => {
+  const file = fs.readFile(path)
+  // console.log(file)
   return file
 }
 
 const __ = require('highland')
 
-test('fs with promises', async () => {
+test('fs with promises', async done => {
   const path = '../input.yml'
   const json = yaml.safeLoad(await fs.readFile(path))
   expect(json.location).toBe('London')
@@ -88,7 +88,10 @@ test('fs with promises', async () => {
     .tap(console.log)
     .map(__.wrapCallback(readFile)).sequence()
     .tap(console.log)
-    .toArray(results => console.log(results))
+    .toArray(results => {
+      console.log(results)
+      done(null)
+    })
 })
 
 const intersection = arrays => {
