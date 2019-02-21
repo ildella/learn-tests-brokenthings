@@ -13,7 +13,7 @@ test('start of', async () => {
   // console.log(DateTime.local().endOf('month'))
 })
 
-test('calling function', async () => {
+test('timestamp for now', async () => {
   const dateTime = DateTime.local()
   const jsDate = dateTime.toJSDate()
   // console.log(dateTime)

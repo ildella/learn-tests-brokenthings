@@ -35,15 +35,18 @@ test('rest ES2015', async () => {
   expect(Math.max(...values)).toBe(100)
 })
 
-test('rest ES2018', async () => {
-  const myObject = {
-    a: 1,
-    b: 2,
-    c: 3
-  }
-  const {a, ...x} = myObject
+test('rest object ES2018', async () => {
+  const original = {a: 1, b: 2, c: 3}
+  const {a, ...x} = original
   expect(a).toBe(1)
   expect(x).toEqual({b: 2, c: 3})
+})
+
+test('rest array ES2018', async () => {
+  const original = [1, 2, null, 3]
+  const [a, ...x] = original
+  expect(a).toEqual(1)
+  expect(x).toEqual([2, null, 3])
 })
 
 test('spread object ES2018', async () => {
@@ -79,20 +82,20 @@ const readFile = path => {
 
 const __ = require('highland')
 
-test('fs with promises', async done => {
-  const path = '../input.yml'
-  const json = yaml.safeLoad(await fs.readFile(path))
-  expect(json.location).toBe('London')
+// test('fs with promises', async done => {
+//   const path = '../input.yml'
+//   const json = yaml.safeLoad(await fs.readFile(path))
+//   expect(json.location).toBe('London')
 
-  __([path])
-    .tap(console.log)
-    .map(__.wrapCallback(readFile)).sequence()
-    .tap(console.log)
-    .toArray(results => {
-      console.log(results)
-      done(null)
-    })
-})
+//   __([path])
+//     .tap(console.log)
+//     .map(__.wrapCallback(readFile)).sequence()
+//     .tap(console.log)
+//     .toArray(results => {
+//       console.log(results)
+//       done(null)
+//     })
+// })
 
 const intersection = arrays => {
   return arrays.reduce((a, b) => a.filter(c => b.includes(c)))
