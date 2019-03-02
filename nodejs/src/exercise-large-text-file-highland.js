@@ -10,25 +10,30 @@ const rl = readline.createInterface({input: inputStream})
 let counter = 0
 const generator = (push, next) => {
   rl.on('line', line => {
-    counter++
     push(null, line)
-    // next()
   })
   rl.on('close', () => {
     push(null, __.nil)
-    // console.log(`line counter -> ${counter}`)
-    // console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
-    // console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
+    console.log(`used heap -> ${process.memoryUsage().heapTotal / 1024 / 1024}MB`)
+    console.log(`total heap -> ${process.memoryUsage().heapUsed / 1024 / 1024}MB`)
   })
 }
 
-const countWithReadline = () => {
+const countLines = () => {
   __(generator)
+    .tap(() => counter++)
+    .done(() => console.log(`Highland> line count: ${counter}`))
+}
+
+const valuesAtLines = () => {
+  __(generator)
+    .tap(() => counter++)
     .filter(line => {
       return counter == 432 || counter == 43243
     })
-    .map(line => `value at line ${counter}: ${line.split('|')[7]}`)
-    .done(() => console.log(`Highland> line count: ${counter}`))
+    .map(line => line.split('|')[7])
+    .map(value => `value at line ${counter}: ${value}`)
+    .toArray(array => console.log(array))
 }
 
 const accumulator = {}
@@ -36,6 +41,7 @@ const sumByMonth = function (a, item) {
   accumulator[item.month] = (accumulator[item.month] || 0) + 1
   return item
 }
+
 const countDonationsPerMonth = () => {
   __(generator)
     .map(line => { return {month: line.split('|')[4].substring(4, 6), line: line,}})
@@ -62,6 +68,7 @@ const namesOccurences = () => {
     })
 }
 
-countWithReadline()
+// countLines()
+valuesAtLines()
 // countDonationsPerMonth()
 // namesOccurences()
