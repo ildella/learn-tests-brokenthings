@@ -66,23 +66,28 @@ test('through', () => {
     })
 })
 
-test('fork and observe', () => {
+test('fork and observe', done => {
+  expect.assertions(10)
   const xs = __([1, 2, 3, 4])
   const ys = xs.fork()
   const zs = xs.observe()
-
-  // now both zs and ys will receive data as fast as ys can handle it
-  ys.resume()
+  // now both zs and ys will receive data as fast as the slowest can handle it
+  // ys.resume() // need to double check this, not needed
 
   ys
-    // .tap(console.log)
+    .map(item => {
+      expect(typeof item).toBe('number')
+    })
     .toArray(results => {
       expect(results).toHaveLength(4)
     })
   zs
-    // .tap(console.log)
+    .map(item => {
+      expect(typeof item).toBe('number')
+    })
     .toArray(results => {
       expect(results).toHaveLength(4)
+      done(null)
     })
 })
 
