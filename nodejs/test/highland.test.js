@@ -19,7 +19,7 @@ test('error chain', () => {
       }
       return n
     })
-    .errors(err => console.error(`error detected -> ${err.message}`))
+    .errors(err => console.error(`error -> ${err.message}`))
     .toArray(results => {
       expect(results).toHaveLength(2)
     })
@@ -149,7 +149,7 @@ test('basic generator with group', () => {
     })
 })
 
-test('generator with setTimeout', () => {
+test('generator with setTimeout', done => {
   let called = 0
   const highlandGenerator = (push, next) => {
     setTimeout(() => {
@@ -170,7 +170,10 @@ test('generator with setTimeout', () => {
       console.log(`I can see you here ${item}`)
       return item
     })
-    .toArray(results => console.log('GENERATOR DONE', results))
+    .toArray(results => {
+      console.log('GENERATOR DONE', results)
+      done(null)
+    })
 })
 
 test('reduce', () => {
