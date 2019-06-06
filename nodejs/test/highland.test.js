@@ -1,3 +1,4 @@
+jest.setTimeout(2000)
 const axios = require('axios')
 const __ = require('highland')
 
@@ -22,6 +23,23 @@ test('error chain', () => {
     .errors(err => console.error(`error -> ${err.message}`))
     .toArray(results => {
       expect(results).toHaveLength(2)
+    })
+})
+
+test('error in a promise', done => {
+  const dosomething = (n, cb) => {
+    if (n > 3) {
+      // throw new Error('more than 3') <-- this would be bad
+      return cb(new Error('more than 3'))
+    }
+    cb(null, n)
+  }
+  __([1, 2, 3, 4])
+    .map(__.wrapCallback(dosomething)).sequence()
+    .errors(err => console.error(`error -> ${err.message}`))
+    .toArray(results => {
+      expect(results).toHaveLength(3)
+      done(null)
     })
 })
 
@@ -171,7 +189,7 @@ test('generator with setTimeout', done => {
       return item
     })
     .toArray(results => {
-      console.log('GENERATOR DONE', results)
+      expect(results).toHaveLength(10)
       done(null)
     })
 })
