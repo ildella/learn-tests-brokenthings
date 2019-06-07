@@ -78,7 +78,7 @@ test('error in a promise', done => {
 })
 
 const remote = n => {
-  console.log(n)
+  // console.log(n)
   if (n > 3) {
     axios('http://localhost/unfedined')
       .catch(error => {
@@ -90,7 +90,7 @@ const remote = n => {
 }
 
 const remoteAsync = async n => {
-  console.log(n)
+  // console.log(n)
   if (n > 2) {
     const response = await axios('http://localhost/unfedined')
   }
@@ -118,21 +118,28 @@ test('through', () => {
     })
 })
 
-test('fork and observe', () => {
+test('fork and observe', done => {
+  expect.assertions(10)
   const xs = __([1, 2, 3, 4])
   const ys = xs.fork()
   const zs = xs.observe()
-
-  // now both zs and ys will receive data as fast as ys can handle it
-  ys.resume()
+  // now both zs and ys will receive data as fast as the slowest can handle it
+  // ys.resume() // need to double check this, not needed
 
   ys
+    .map(item => {
+      expect(typeof item).toBe('number')
+    })
     .toArray(results => {
       expect(results).toHaveLength(4)
     })
   zs
+    .map(item => {
+      expect(typeof item).toBe('number')
+    })
     .toArray(results => {
       expect(results).toHaveLength(4)
+      done(null)
     })
 })
 
@@ -158,7 +165,8 @@ const sub = () => {
 
 test('use stream from a function', () => {
   sub().toArray(items => {
-    console.log(items)
+    expect(items).toEqual([2, 4, 6])
+    // console.log(items)
   })
 })
 
@@ -197,7 +205,7 @@ test('basic generator with group', () => {
     .toArray(results => {
       expect(counter).toBe(4)
       expect(sent).toBe(4)
-      console.log(results)
+      expect(results).toHaveLength(1)
     })
 })
 
@@ -210,22 +218,26 @@ test('generator with setTimeout', done => {
         return
       }
       called++
-      console.log('pushing...')
+      // console.log('pushing...')
       push(null, `call-${called}`)
-      console.log('... pushed!')
+      // console.log('... pushed!')
       next()
-    }, 100)
+    }, 50)
   }
 
   __(highlandGenerator)
     .map(item => {
-      console.log(`I can see you here ${item}`)
+      // console.log(`I can see you here ${item}`)
+      // expect(item).toContain('call-')
       return item
     })
     .toArray(results => {
-      expect(results).toHaveLength(10)
+      expect(results).toEqual([
+        'call-1', 'call-2', 'call-3', 'call-4', 'call-5', 'call-6', 'call-7', 'call-8', 'call-9', 'call-10'
+      ])
       done(null)
-    })
+    }
+    )
 })
 
 test('reduce', () => {
