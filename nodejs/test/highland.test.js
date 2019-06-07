@@ -26,7 +26,8 @@ test('error chain', () => {
     })
 })
 
-test('error in a promise', done => {
+test('error in a function with a callback', done => {
+  expect.assertions(3)
   const dosomething = (n, cb) => {
     if (n > 3) {
       // throw new Error('more than 3') <-- this would be bad
@@ -36,9 +37,35 @@ test('error in a promise', done => {
   }
   __([1, 2, 3, 4])
     .map(__.wrapCallback(dosomething)).sequence()
-    .errors(err => console.error(`error -> ${err.message}`))
+    .errors(err => {
+      expect(err).toBeDefined()
+      expect(err.message).toBe('more than 3')
+    })
     .toArray(results => {
       expect(results).toHaveLength(3)
+      done(null)
+    })
+})
+
+const {promisify} = require('util')
+const wrapPromise = p => __.wrapCallback(async (input, callback) => { callback(null, await p(input)) })
+test('error in a promise', done => {
+  expect.assertions(3)
+  const dosomething = (n, cb) => {
+    if (n > 4) {
+      // throw new Error('more than 3') <-- this would be bad
+      return cb(new Error('more than 4'))
+    }
+    cb(null, n)
+  }
+  __([1, 2, 3, 4])
+    .map(wrapPromise(promisify(dosomething))).sequence()
+    .errors(err => {
+      expect(err).toBeDefined()
+      expect(err.message).toBe('more than 4')
+    })
+    .toArray(results => {
+      expect(results).toHaveLength(4)
       done(null)
     })
 })
