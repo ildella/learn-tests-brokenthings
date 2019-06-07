@@ -48,7 +48,14 @@ test('error in a function with a callback', done => {
 })
 
 const {promisify} = require('util')
-const wrapPromise = p => __.wrapCallback(async (input, callback) => { callback(null, await p(input)) })
+const wrapPromise = p => __.wrapCallback(async (input, callback) => {
+  try {
+    const result = await p(input)
+    callback(null, result)
+  } catch(e) {
+    callback(e)
+  }
+})
 test('error in a promise', done => {
   expect.assertions(3)
   const dosomething = (n, cb) => {
@@ -58,7 +65,7 @@ test('error in a promise', done => {
     }
     cb(null, n)
   }
-  __([1, 2, 3, 4])
+  __([1, 2, 3, 4, 5])
     .map(wrapPromise(promisify(dosomething))).sequence()
     .errors(err => {
       expect(err).toBeDefined()
