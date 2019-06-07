@@ -3,6 +3,7 @@ const axios = require('axios')
 const __ = require('highland')
 
 test('error chain', () => {
+  expect.assertions(6)
   __([1, 2, 3, 4])
     .map(n => {
       if (n > 3) {
@@ -11,7 +12,8 @@ test('error chain', () => {
       return n
     })
     .map(n => {
-      console.log(n)
+      // console.log(n)
+      expect(n).toBeLessThan(4)
       return n
     })
     .map(n => {
@@ -20,7 +22,10 @@ test('error chain', () => {
       }
       return n
     })
-    .errors(err => console.error(`error -> ${err.message}`))
+    .errors(err => {
+      console.error(`error -> ${err.message}`)
+      expect(err).toBeDefined()
+    })
     .toArray(results => {
       expect(results).toHaveLength(2)
     })
