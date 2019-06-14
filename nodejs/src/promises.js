@@ -38,12 +38,6 @@ console.log('do not wait for it...', response)
 
 waitForIt(response)
 
-Promise.all([fetchAll('c'), fetchAll('d')])
-  .then(values => {
-    console.log('and here are the responses from all the promises that run')
-    console.log(values)
-  })
-
 async function fetchFromIds (ids) {
   // do NOT use await model.fetch(id) inside the map(). Instead:
   const promises = ids.map(id => model.fetch(id))

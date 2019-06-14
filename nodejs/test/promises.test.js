@@ -81,6 +81,14 @@ test('good way to run multiple promises / avoid async in loops', async () => {
   console.log(await Promise.all(promises))
 })
 
+test('Promise.all', () => {
+  return Promise.all([fetchAll('c'), fetchAll('d')])
+    .then(values => {
+      console.log('and here are the responses from all the promises that run')
+      expect(values).toEqual([{'param': 'c', 'result': 'ok'}, {'param': 'd', 'result': 'ok'}])
+    })
+})
+
 test('Function name and toStringTag', () => {
   const asyncFn = async () => {}
   // console.log(asyncFn)

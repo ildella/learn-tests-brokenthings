@@ -1,6 +1,6 @@
 const {exec} = require('child_process')
 
-test('exec async', () => {
+test('exec async', done => {
   const mock = jest.fn()
   exec('pwd', {}, (err, stdin, stdout) => {
     mock()
@@ -9,6 +9,7 @@ test('exec async', () => {
     console.log(stdout)
     expect(mock).toHaveBeenCalledTimes(1)
     mock()
+    done()
   })
   // expect(mock).toHaveBeenCalledTimes(2)
 })
