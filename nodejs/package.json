@@ -44,7 +44,8 @@
     "mongodb": "3.2.7",
     "short-unique-id": "1.1.1",
     "socket.io": "2.2.0",
-    "tracer": "0.9.8"
+    "tracer": "0.9.8",
+    "snyk": "^1.192.0"
   },
   "devDependencies": {
     "chai": "4.2.0",
@@ -82,6 +83,9 @@
     "eslint": "node_modules/eslint/bin/eslint.js .",
     "eslint-print-all": "node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml",
     "docker:build": "docker build -t ildella/learn-tests-brokenthings-server .",
-    "docker:run": "docker run -p 49160:3456 -d ildella/learn-tests-brokenthings-server"
-  }
+    "docker:run": "docker run -p 49160:3456 -d ildella/learn-tests-brokenthings-server",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
