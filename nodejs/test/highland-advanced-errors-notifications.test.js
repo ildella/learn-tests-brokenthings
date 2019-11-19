@@ -3,6 +3,7 @@ const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
 const {wait, wrapPromise} = require('../src/highland-utils')
+const {DateTime} = require('luxon')
 
 const instrument = stream => {
   let counter = 0
@@ -22,7 +23,6 @@ const writeErrors = new ObjectWritableMock()
 const notifications = new ObjectWritableMock()
 const mergedNotifications = new ObjectWritableMock()
 output._write = (chunk, encoding, cb) => {
-  console.log(chunk)
   if (chunk.v > 4 || chunk.z > 6) {
     output.data.push(chunk)
     return cb()
@@ -47,10 +47,11 @@ const fetch2 = async item => {
   await wait(3)
   return {z: item * 3}
 }
-const processingPipeline = __.pipeline(
-  __.map(wrapPromise(fetch1)),
-  __.sequence(),
-)
+// const processingPipeline = item => __.pipeline(
+//   __.map(wrapPromise(fetch1)),
+//   __.sequence(),
+//   __.map(transformed => ({...item, ...transformed}))
+// )
 
 const sourceStream = __(reader).ratelimit(1, 50)
 const writeErrorsStream = __(writableStreamErrorSource)
@@ -61,7 +62,9 @@ processingStream.observe().pipe(notifications)
 // const originalStream = processingStream.fork()
 const fetch1Stream = processingStream.fork().map(wrapPromise(fetch1))
 const fetch2Stream = processingStream.fork().map(wrapPromise(fetch2))
-const mergedStream = __([fetch1Stream, fetch2Stream]).merge().parallel(2)
+const mergedStream = __([fetch1Stream, fetch2Stream])
+  .ratelimit(1, 10).merge().parallel(2)
+  // .tap(() => console.log(DateTime.local().c))
 
 const sourceStreamInstrumentation = instrument(sourceStream)
 const processingStreamInstrumentation = instrument(processingStream)
@@ -74,7 +77,6 @@ test('output stream error', done => {
     expect(processingStreamInstrumentation.get()).toBe(5)
     expect(notifications.data).toEqual([1, 2, 3, 8, 2])
     // expect(mergedNotifications.data).toEqual([{v: 2}, {z: 3}, {v: 4}, {z: 6}, {v: 6}, {z: 9}, {v: 16}, {z: 24}])
-    console.log(output.data)
     expect(output.data).toEqual([{v: 6}, {z: 9}, {v: 16}, {z: 24}])
     // expect(writeErrors.data).toEqual(['booooom - 2', 'booooom - 4', 'booooom - 4'])
     expect(writeErrors.data).toEqual([
