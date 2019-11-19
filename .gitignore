@@ -4,3 +4,4 @@ data
 output
 coverage
 output.json
+yarn-error.log
