@@ -1,7 +1,7 @@
 const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
-const input = [1, 2, 3, 1.1, 1.2, 8]
+const input = [1, 2, 3, 1.1, 1.2, 8, 2]
 
 const instrument = stream => {
   let counter = 0
@@ -42,21 +42,21 @@ const processingStream = sourceStream
 processingStream.observe().pipe(notifications)
 
 const sourceStreamInstrumentation = instrument(sourceStream)
-const originalStreamInstrumentation = instrument(processingStream)
+const processingStreamInstrumentation = instrument(processingStream)
 
 test('output stream error', done => {
   // expect.assertions(8)
   errors.on('finish', () => {
     expect(errors.writable).toBe(false)
-    expect(errors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3'])
+    expect(errors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3', 'booooom - 2'])
   })
   output.on('finish', () => {
     expect(handleWarnings).not.toHaveBeenCalled()
-    expect(sourceStreamInstrumentation.get()).toBe(6)
-    expect(originalStreamInstrumentation.get()).toBe(4)
+    expect(sourceStreamInstrumentation.get()).toBe(7)
+    expect(processingStreamInstrumentation.get()).toBe(5)
     expect(output.data).toEqual([])
     expect(output.writable).toBe(false)
-    expect(notifications.data).toEqual([1, 2, 3, 8])
+    expect(notifications.data).toEqual([1, 2, 3, 8, 2])
     done()
   })
   writeErrorsStream.pipe(errors)
