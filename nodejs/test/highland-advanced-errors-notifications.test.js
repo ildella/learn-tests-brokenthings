@@ -32,7 +32,6 @@ output._write = (chunk, encoding, cb) => {
     return cb()
   }
   cb(`booooom - ${chunk.original}`)
-  // cb(`booooom - `)
 }
 const writableStreamErrorSource = push => {
   output.on('error', err => {
