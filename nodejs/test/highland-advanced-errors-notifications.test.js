@@ -48,7 +48,6 @@ const processingPipeline = __.pipeline(
 const sourceStream = __(reader).ratelimit(1, 50)
 const writeErrorsStream = __(writableStreamErrorSource)
 const processingStream = sourceStream
-  // .filter(Number.isInteger)
   .through(processingPipeline)
   .sequence()
   .errors(handleProcessingErrors)
