@@ -32,16 +32,17 @@ const outputErrorSource = push => {
     push(null, __.nil)
   })
 }
-const errorsStream = __(outputErrorSource)
 const handleWarnings = jest.fn()
-const sourceStream = __(reader)
-  .ratelimit(1, 50)
-const originalStream = sourceStream
+
+const sourceStream = __(reader).ratelimit(1, 50)
+const writeErrorsStream = __(outputErrorSource)
+const processingStream = sourceStream
   .filter(Number.isInteger)
   .errors(handleWarnings)
+processingStream.observe().pipe(notifications)
+
 const sourceStreamInstrumentation = instrument(sourceStream)
-const originalStreamInstrumentation = instrument(originalStream)
-originalStream.observe().pipe(notifications)
+const originalStreamInstrumentation = instrument(processingStream)
 
 test('output stream error', done => {
   // expect.assertions(8)
@@ -58,6 +59,6 @@ test('output stream error', done => {
     expect(notifications.data).toEqual([1, 2, 3, 8])
     done()
   })
-  errorsStream.pipe(errors)
-  originalStream.pipe(output)
+  writeErrorsStream.pipe(errors)
+  processingStream.pipe(output)
 })
