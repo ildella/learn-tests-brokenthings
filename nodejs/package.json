@@ -54,7 +54,6 @@
     "eslint": "5.16.0",
     "eslint-config-node-opinionated": "0.2.6",
     "eslint-plugin-chai-expect": "2.0.1",
-    "eslint-plugin-security": "1.4.0",
     "jest": "24.9.0",
     "jest-coverage-badges": "1.1.2",
     "nodemon": "1.19.1",
@@ -69,7 +68,7 @@
     "tests:badges": "npm run tests && jest-coverage-badges",
     "watch": "nodemon src/server.js",
     "depcheck": "node_modules/depcheck/bin/depcheck",
-    "eslint": "eslint .",
+    "lint": "eslint .",
     "eslint-print-all": "node_modules/eslint/bin/eslint.js --print-config .eslintrc.yml > eslintconfig.yml",
     "docker:build": "docker build -t ildella/learn-tests-brokenthings-server .",
     "docker:run": "docker run -p 49160:3456 -d ildella/learn-tests-brokenthings-server"
