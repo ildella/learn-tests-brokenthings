@@ -1,7 +1,7 @@
 const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
-const input = [1, 2, 3, 1.1, 1.2]
+const input = [1, 2, 3, 1.1, 1.2, 8]
 
 const instrument = (stream, output) => {
   let counter = 0
@@ -21,6 +21,9 @@ const output = new ObjectWritableMock()
 const errors = new ObjectWritableMock()
 const notifications = new ObjectWritableMock()
 output._write = (chunk, encoding, cb) => {
+  if (chunk > 4) {
+    return cb()
+  }
   cb(`booooom - ${chunk}`)
 }
 const outputErrorSource = push => {
@@ -33,15 +36,18 @@ const outputErrorSource = push => {
 }
 const errorsStream = __(outputErrorSource)
 const handleWarnings = jest.fn()
-const originalStream = __(reader)
+const sourceStream = __(reader)
   .ratelimit(1, 50)
+const originalStream = sourceStream
   .filter(Number.isInteger)
   .errors(handleWarnings)
 // const mainStream = originalStream.fork()
+const sourceStreamInstrumentation = instrument(sourceStream, notifications)
 const originalStreamInstrumentation = instrument(originalStream, notifications)
 const outputErrorsInstrumentation = instrument(errorsStream, errors)
 
 test('output stream error', done => {
+  // expect.assertions(10)
   output.on('error', err => {
     expect(output.writable).toBe(true)
   })
@@ -51,7 +57,8 @@ test('output stream error', done => {
   })
   output.on('finish', () => {
     expect(handleWarnings).not.toHaveBeenCalled()
-    expect(originalStreamInstrumentation.get()).toBe(3)
+    expect(sourceStreamInstrumentation.get()).toBe(6)
+    expect(originalStreamInstrumentation.get()).toBe(4)
     expect(outputErrorsInstrumentation.get()).toBe(3)
     expect(output.data).toEqual([])
     expect(output.writable).toBe(false)
