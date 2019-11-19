@@ -34,11 +34,15 @@ const writableStreamErrorSource = push => {
   })
 }
 const handleProcessingErrors = jest.fn()
+const processingPipeline = __.pipeline(
+  __.filter(Number.isInteger)
+)
 
 const sourceStream = __(reader).ratelimit(1, 50)
 const writeErrorsStream = __(writableStreamErrorSource)
 const processingStream = sourceStream
-  .filter(Number.isInteger)
+  // .filter(Number.isInteger)
+  .through(processingPipeline)
   .errors(handleProcessingErrors)
 processingStream.observe().pipe(notifications)
 
