@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "This is a repository where I just put stuff I learn, consolidate, try and test.",
   "engines": {
-    "node": "11",
-    "npm": "6.4.1"
+    "node": "12"
   },
   "homepage": "https://github.com/ildella/learn-tests-brokenthings#readme",
   "repository": {
@@ -42,6 +41,7 @@
     "lodash": "4.17.11",
     "luxon": "1.16.0",
     "mongodb": "3.2.7",
+    "ramda": "0.26.1",
     "short-unique-id": "1.1.1",
     "socket.io": "2.2.0",
     "tracer": "0.9.8"
@@ -67,6 +67,7 @@
     "jest-coverage-badges": "1.1.2",
     "mocha": "6.1.4",
     "nodemon": "1.19.1",
+    "stream-mock": "2.0.5",
     "supertest": "4.0.2",
     "webtask-tools": "3.4.0"
   },

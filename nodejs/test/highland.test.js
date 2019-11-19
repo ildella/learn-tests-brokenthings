@@ -1,6 +1,9 @@
 jest.setTimeout(2000)
 const axios = require('axios')
 const __ = require('highland')
+const {empty} = require('ramda')
+const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
+const input = [1, 2, 3, 1.1, 1.2]
 
 test('error chain', () => {
   expect.assertions(6)
@@ -253,4 +256,54 @@ test('reduce', () => {
   __([1, 2, 3, 4])
     .reduce(0, add)
     .toArray(result => expect(result[0]).toBe(10))
+})
+
+test('simple pipe with stream mocks', done => {
+  const reader = new ObjectReadableMock(input)
+  const writer = new ObjectWritableMock()
+  reader.pipe(writer)
+  writer.on('finish', () => {
+    done()
+  })
+})
+
+test('transform error', done => {
+  const reader = new ObjectReadableMock(input)
+  const writer = new ObjectWritableMock()
+  writer.on('finish', () => {
+    expect(writer.data).toEqual([])
+    done()
+  })
+  const transform = () => { throw new Error('booom') }
+  __(reader)
+    .map(transform)
+    .errors(() => ({}))
+    .pipe(writer)
+})
+
+test('counter as observer', done => {
+  let counter = 0
+  const reader = new ObjectReadableMock(input)
+  const writer = new ObjectWritableMock()
+  writer.on('finish', () => {
+    expect(writer.data).toHaveLength(input.length)
+    expect(counter).toBe(input.length)
+    done()
+  })
+  const transform = () => ({id: '1'})
+  const mainStream = __(reader).map(transform)
+  const processorStream = mainStream.fork()
+  const counterStream = mainStream.observe()
+  counterStream
+    .tap(() => counter++)
+    .tap(() => { throw new Error('bang') })
+    .tap(() => counter++)
+    .tap(item => console.log('tap', item))
+    // .errors(err => console.error('counter stream', err))
+    .errors(() => ({}))
+    .each(empty)
+
+  processorStream
+    .errors(() => ({}))
+    .pipe(writer)
 })
