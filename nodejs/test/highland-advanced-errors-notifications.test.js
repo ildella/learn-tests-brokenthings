@@ -16,10 +16,11 @@ const instrument = stream => {
 
 const reader = new ObjectReadableMock(input)
 const output = new ObjectWritableMock()
-const errors = new ObjectWritableMock()
+const writeErrors = new ObjectWritableMock()
 const notifications = new ObjectWritableMock()
 output._write = (chunk, encoding, cb) => {
   if (chunk > 4) {
+    output.data.push(chunk)
     return cb()
   }
   cb(`booooom - ${chunk}`)
@@ -32,13 +33,13 @@ const outputErrorSource = push => {
     push(null, __.nil)
   })
 }
-const handleWarnings = jest.fn()
+const handleProcessingErrors = jest.fn()
 
 const sourceStream = __(reader).ratelimit(1, 50)
 const writeErrorsStream = __(outputErrorSource)
 const processingStream = sourceStream
   .filter(Number.isInteger)
-  .errors(handleWarnings)
+  .errors(handleProcessingErrors)
 processingStream.observe().pipe(notifications)
 
 const sourceStreamInstrumentation = instrument(sourceStream)
@@ -46,19 +47,19 @@ const processingStreamInstrumentation = instrument(processingStream)
 
 test('output stream error', done => {
   // expect.assertions(8)
-  errors.on('finish', () => {
-    expect(errors.writable).toBe(false)
-    expect(errors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3', 'booooom - 2'])
+  writeErrors.on('finish', () => {
+    expect(writeErrors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3', 'booooom - 2'])
+    expect(writeErrors.writable).toBe(false)
   })
   output.on('finish', () => {
-    expect(handleWarnings).not.toHaveBeenCalled()
+    expect(handleProcessingErrors).not.toHaveBeenCalled()
     expect(sourceStreamInstrumentation.get()).toBe(7)
     expect(processingStreamInstrumentation.get()).toBe(5)
-    expect(output.data).toEqual([])
-    expect(output.writable).toBe(false)
     expect(notifications.data).toEqual([1, 2, 3, 8, 2])
+    expect(output.data).toEqual([8])
+    expect(output.writable).toBe(false)
     done()
   })
-  writeErrorsStream.pipe(errors)
+  writeErrorsStream.pipe(writeErrors)
   processingStream.pipe(output)
 })
