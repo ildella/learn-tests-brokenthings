@@ -40,11 +40,11 @@ const originalStream = sourceStream
   .filter(Number.isInteger)
   .errors(handleWarnings)
 const sourceStreamInstrumentation = instrument(sourceStream)
-// const sourceStreamInstrumentation = stream.observe().pipe(notifications)
 const originalStreamInstrumentation = instrument(originalStream)
+originalStream.observe().pipe(notifications)
 
 test('output stream error', done => {
-  expect.assertions(7)
+  // expect.assertions(8)
   errors.on('finish', () => {
     expect(errors.writable).toBe(false)
     expect(errors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3'])
@@ -55,6 +55,7 @@ test('output stream error', done => {
     expect(originalStreamInstrumentation.get()).toBe(4)
     expect(output.data).toEqual([])
     expect(output.writable).toBe(false)
+    expect(notifications.data).toEqual([1, 2, 3, 8])
     done()
   })
   errorsStream.pipe(errors)
