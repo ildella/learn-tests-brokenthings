@@ -25,7 +25,7 @@ output._write = (chunk, encoding, cb) => {
   }
   cb(`booooom - ${chunk}`)
 }
-const outputErrorSource = push => {
+const writableStreamErrorSource = push => {
   output.on('error', err => {
     push(null, err)
   })
@@ -36,7 +36,7 @@ const outputErrorSource = push => {
 const handleProcessingErrors = jest.fn()
 
 const sourceStream = __(reader).ratelimit(1, 50)
-const writeErrorsStream = __(outputErrorSource)
+const writeErrorsStream = __(writableStreamErrorSource)
 const processingStream = sourceStream
   .filter(Number.isInteger)
   .errors(handleProcessingErrors)
