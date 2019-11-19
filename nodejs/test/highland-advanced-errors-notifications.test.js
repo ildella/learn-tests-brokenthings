@@ -1,7 +1,7 @@
 const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
-const input = [1, 2, 3, 1.1, 1.2, 8, 2]
+const {wait, wrapPromise} = require('../src/highland-utils')
 
 const instrument = stream => {
   let counter = 0
@@ -14,6 +14,7 @@ const instrument = stream => {
   }
 }
 
+const input = [1, 2, 3, 1.1, 1.2, 8, 2]
 const reader = new ObjectReadableMock(input)
 const output = new ObjectWritableMock()
 const writeErrors = new ObjectWritableMock()
@@ -34,8 +35,14 @@ const writableStreamErrorSource = push => {
   })
 }
 const handleProcessingErrors = jest.fn()
+const fetch = async item => {
+  await wait(3)
+  return item * 2
+}
 const processingPipeline = __.pipeline(
-  __.filter(Number.isInteger)
+  __.filter(Number.isInteger),
+  __.map(wrapPromise(fetch)),
+  // __.sequence(),
 )
 
 const sourceStream = __(reader).ratelimit(1, 50)
@@ -43,6 +50,7 @@ const writeErrorsStream = __(writableStreamErrorSource)
 const processingStream = sourceStream
   // .filter(Number.isInteger)
   .through(processingPipeline)
+  .sequence()
   .errors(handleProcessingErrors)
 processingStream.observe().pipe(notifications)
 
@@ -52,15 +60,15 @@ const processingStreamInstrumentation = instrument(processingStream)
 test('output stream error', done => {
   // expect.assertions(8)
   writeErrors.on('finish', () => {
-    expect(writeErrors.data).toEqual(['booooom - 1', 'booooom - 2', 'booooom - 3', 'booooom - 2'])
+    expect(writeErrors.data).toEqual(['booooom - 2', 'booooom - 4', 'booooom - 4'])
     expect(writeErrors.writable).toBe(false)
   })
   output.on('finish', () => {
     expect(handleProcessingErrors).not.toHaveBeenCalled()
     expect(sourceStreamInstrumentation.get()).toBe(7)
     expect(processingStreamInstrumentation.get()).toBe(5)
-    expect(notifications.data).toEqual([1, 2, 3, 8, 2])
-    expect(output.data).toEqual([8])
+    expect(notifications.data).toEqual([2, 4, 6, 16, 4])
+    expect(output.data).toEqual([6, 16])
     expect(output.writable).toBe(false)
     done()
   })
