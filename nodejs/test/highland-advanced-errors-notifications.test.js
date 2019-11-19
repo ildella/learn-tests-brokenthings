@@ -20,11 +20,11 @@ const output = new ObjectWritableMock()
 const writeErrors = new ObjectWritableMock()
 const notifications = new ObjectWritableMock()
 output._write = (chunk, encoding, cb) => {
-  if (chunk > 4) {
+  if (chunk.v > 4) {
     output.data.push(chunk)
     return cb()
   }
-  cb(`booooom - ${chunk}`)
+  cb(`booooom - ${chunk.v}`)
 }
 const writableStreamErrorSource = push => {
   output.on('error', err => {
@@ -35,21 +35,25 @@ const writableStreamErrorSource = push => {
   })
 }
 const handleProcessingErrors = jest.fn()
-const fetch = async item => {
+const fetch1 = async item => {
   await wait(3)
-  return item * 2
+  return {v: item * 2}
+}
+const fetch2 = async item => {
+  await wait(3)
+  return {z: item * 3}
 }
 const processingPipeline = __.pipeline(
-  __.filter(Number.isInteger),
-  __.map(wrapPromise(fetch)),
-  // __.sequence(),
+  __.map(wrapPromise(fetch1)),
+  __.sequence(),
 )
 
 const sourceStream = __(reader).ratelimit(1, 50)
 const writeErrorsStream = __(writableStreamErrorSource)
 const processingStream = sourceStream
+  .filter(Number.isInteger)
   .through(processingPipeline)
-  .sequence()
+  // .sequence()
   .errors(handleProcessingErrors)
 processingStream.observe().pipe(notifications)
 
@@ -66,8 +70,8 @@ test('output stream error', done => {
     expect(handleProcessingErrors).not.toHaveBeenCalled()
     expect(sourceStreamInstrumentation.get()).toBe(7)
     expect(processingStreamInstrumentation.get()).toBe(5)
-    expect(notifications.data).toEqual([2, 4, 6, 16, 4])
-    expect(output.data).toEqual([6, 16])
+    expect(notifications.data).toEqual([{v: 2}, {v: 4}, {v: 6}, {v: 16}, {v: 4}])
+    expect(output.data).toEqual([{v: 6}, {v: 16}])
     expect(output.writable).toBe(false)
     done()
   })
