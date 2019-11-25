@@ -3,6 +3,8 @@ node_js:
   - "12"
 cache:
   yarn: true
+before_script: 
+  - cd nodejs
 script: 
   # - yarn lint
-  - yarn test --coverage
+  - yarn test
