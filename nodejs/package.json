@@ -64,7 +64,7 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "jest --watch",
-    "tests": "jest --config=jest.ci.js",
+    "coverage": "jest --coverage",
     "tests:badges": "npm run tests && jest-coverage-badges",
     "watch": "nodemon src/server.js",
     "depcheck": "node_modules/depcheck/bin/depcheck",
