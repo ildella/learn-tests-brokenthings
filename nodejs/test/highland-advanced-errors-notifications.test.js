@@ -1,4 +1,3 @@
-jest.setTimeout(1000)
 const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
