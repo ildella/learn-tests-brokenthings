@@ -1,3 +1,21 @@
+const promClient = require('prom-client')
+const jaegerClient = require('jaeger-client')
+const PrometheusMetricsFactory = jaegerClient.PrometheusMetricsFactory
+
+const config = {
+  serviceName: 'my-awesome-service',
+}
+const namespace = config.serviceName
+const metrics = new PrometheusMetricsFactory(promClient, namespace)
+const options = {
+  tags: {
+    'my-awesome-service.version': '1.1.2',
+  },
+  // metrics: metrics,
+  // logger: logger,
+}
+const tracer = jaegerClient.initTracer(config, options)
+
 jest.setTimeout(1000)
 const {empty} = require('ramda')
 const __ = require('highland')
@@ -31,6 +49,7 @@ output._write = (chunk, encoding, cb) => {
     output.data.push(chunk)
     return cb()
   }
+  tracer.error('BBBBOOOOOOOO')
   cb(`booooom - ${chunk.original}`)
 }
 const writableStreamErrorSource = push => {
