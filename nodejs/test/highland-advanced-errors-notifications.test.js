@@ -3,7 +3,7 @@ const {empty} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
 const {wait, wrapPromise} = require('../src/highland-utils')
-const {DateTime} = require('luxon')
+// const {DateTime} = require('luxon')
 const R = require('ramda')
 
 const instrument = stream => {
