@@ -49,31 +49,50 @@ const fetch2 = async item => {
   await wait(3)
   return {z: item * 3}
 }
+const fetch3 = async item => {
+  await wait(3)
+  return {y: item * 4}
+}
 const transform = fetch => async item => {
   const response = await fetch(item)
   return {original: item, ...response}
 }
+const prePipeline = () => __.pipeline(
+  __.filter(Number.isInteger),
+)
+const remotePipeline = fetch => __.pipeline(
+  __.map(wrapPromise(transform(fetch))),
+)
+const postPipeline = () => __.pipeline(
+  __.map(R.mergeAll),
+)
+
 const sourceStream = __(reader).ratelimit(1, 10)
 const writeErrorsStream = __(writableStreamErrorSource)
-const processingStream = sourceStream
-  .filter(Number.isInteger)
+const preStream = sourceStream
+  // .filter(Number.isInteger)
+  .through(prePipeline())
   .errors(handleProcessingErrors)
-processingStream.observe().pipe(notifications)
-const fetch1Stream = processingStream.fork().map(wrapPromise(transform(fetch1)))
-const fetch2Stream = processingStream.fork().map(wrapPromise(transform(fetch2)))
-const mergedStream = __([fetch1Stream, fetch2Stream])
+preStream.observe().pipe(notifications)
+const fetch1Stream = preStream.fork().through(remotePipeline(fetch1))
+const fetch2Stream = preStream.fork().map(wrapPromise(transform(fetch2)))
+const fetch3Stream = preStream.fork().map(wrapPromise(transform(fetch3)))
+const mergeRemoteCallsStream = __([fetch1Stream, fetch2Stream, fetch3Stream])
   .ratelimit(1, 10)
   .merge()
   .parallel(5)
-mergedStream.observe().each(empty)
-const finalStream = mergedStream
-  .batch(2)
-  .tap(console.log)
-  .map(R.mergeAll)
-  // .tap(() => console.log(DateTime.local().c))
+mergeRemoteCallsStream
+  .observe()
+  // .tap(console.log)
+  .each(empty)
+mergeRemoteCallsStream.observe().each(empty)
+const finalStream = mergeRemoteCallsStream
+  .batch(3)
+  // .tap(console.log)
+  .through(postPipeline())
 
 const sourceStreamInstrumentation = instrument(sourceStream)
-const processingStreamInstrumentation = instrument(processingStream)
+const processingStreamInstrumentation = instrument(preStream)
 
 test('output stream error', done => {
   // expect.assertions(8)
@@ -87,8 +106,8 @@ test('output stream error', done => {
     //   {original: 8, v: 16}, {original: 8, z: 24}
     // ])
     expect(output.data).toEqual([
-      {original: 3, v: 6, z: 9},
-      {original: 8, v: 16, z: 24},
+      {original: 3, v: 6, z: 9, y: 12},
+      {original: 8, v: 16, z: 24, y: 32},
     ])
     expect(writeErrors.data).toEqual([
       'booooom - 1', 'booooom - 2', 'booooom - 2'
