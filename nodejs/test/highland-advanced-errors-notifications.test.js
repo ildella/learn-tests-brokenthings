@@ -1,9 +1,8 @@
-const {empty} = require('ramda')
+const {empty, mergeAll} = require('ramda')
 const __ = require('highland')
 const {ObjectReadableMock, ObjectWritableMock} = require('stream-mock')
 const {wait, wrapPromise} = require('../src/highland-utils')
 // const {DateTime} = require('luxon')
-const R = require('ramda')
 
 const instrument = stream => {
   let counter = 0
@@ -64,7 +63,7 @@ const remotePipeline = fetch => __.pipeline(
   __.map(wrapPromise(transform(fetch))),
 )
 const postPipeline = () => __.pipeline(
-  __.map(R.mergeAll),
+  __.map(mergeAll),
 )
 
 const sourceStream = __(reader).ratelimit(1, 10)
