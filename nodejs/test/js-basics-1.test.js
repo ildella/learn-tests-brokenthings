@@ -53,7 +53,7 @@ test('parseInt', () => {
 })
 
 test('load json from js file', () => {
-  const json = require('./samplejson.js')
+  const json = require('./fixtures/samplejson.js')
   console.log(json)
   expect(json.a).toBe('a')
 })

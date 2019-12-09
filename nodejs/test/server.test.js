@@ -4,7 +4,7 @@ const supertest = require('supertest')
 const client = supertest(require('../src/sample-api-routes'))
 
 test('Server up and running', async () => {
-  const response = await client.get(`/`)
+  const response = await client.get('/')
   expect(response.statusCode).toBe(200)
   expect(response.body).toHaveProperty('version')
   expect(response.body).toHaveProperty('name')
