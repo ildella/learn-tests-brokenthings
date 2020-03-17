@@ -4,6 +4,6 @@
   "description": "",
   "main": "gateway.js",
   "dependencies": {
-    "express-gateway": "1.13.0"
+    "express-gateway": "1.16.4"
   }
 }
