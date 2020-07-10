@@ -38,7 +38,7 @@
     "highland": "2.13.5",
     "highland-json": "1.3.3",
     "js-yaml": "3.13.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.16",
     "luxon": "1.21.2",
     "mongodb": "3.3.4",
     "ramda": "0.26.1",
