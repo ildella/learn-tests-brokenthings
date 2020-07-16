@@ -22,6 +22,24 @@ const numberGenerator = function* () {
   }
 }
 
+const generator = function* (amount, creator) {
+  for (let i = 0; i < amount; i++) {
+    const value = creator()
+    yield value
+  }
+}
+
+const user = () => ({
+  a: 1
+})
+
+const forAwaitEs2018Loop = async () => {
+  for await (const v of generator(2, user)) {
+    console.log(v)
+  }
+  console.log('FINISHED forAwaitEs2018Loop')
+}
+
 const main = async () => {
   const t = timer()
   for await (const v of asyncNumberGenerator()) {
