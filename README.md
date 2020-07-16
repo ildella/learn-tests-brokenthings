@@ -8,17 +8,25 @@ A personal repo where I collect sample code for different use cases and techonlo
 * The language is Javascript (ES6+). Mostly Node.js, some React
 * Tests and code I use to learn libraries and tools
 * My best practices for tests, linters, code coverage, continuous integrations.
-* DevOps (aka: Infrastructure Code).
+* Infrastructure Code.
 * Various stuff I like to share, like my bash aliases and some bash scripts I find useful
 * Articles / Guides / How Tos... (coming soon...)
 
-## Some setup
+## Mid-2020 addendum
 
-Ok here are my ways to setup things. 
-My standard toolchain includes nodejs, eslint, jest, pm2, dicital ocean cli, terraform cli, kubectl and a few more...
+I started this a few years ago when I was learning Javascript and Node.js after moving away from the Java language and environment. 
+
+Through the years I changed a lot the way I write tests, code and run applications, but for now I still am on EcmaScript / Node.js.
+
+Some of this code samples and tests are therefor quite old but I try to keep this examples collection consistent and most importantly, the build green. 
+
+
+## Setup
+
+My standard tools include nodejs, eslint, jest and also pm2, dicital ocean cli, terraform cli, kubectl and a few more...
 I'll start adding some docs here and expand later.
 
-### NodeJS toolchain
+### NodeJS setup
 
 ```bash
 # I use n (not nvm) as Node version manager.
@@ -27,9 +35,17 @@ curl -L https://git.io/n-install | bash -s -- -y
 echo "n-> $(n --version)"
 n stable
 npm i -g npm
+npm i -g yarn
 echo "node-> $(node --version)"
 echo "npm-> $(npm --version)"
+echo "yarn-> $(yarn --version)"
+```
 
+### PM2 setup
+
+(outdated...)
+
+```bash
 npm i -g pm2
 echo "pm2-> $(pm2 --version)"
 # pm2 completion install // this will install the completion code directly into .bashrc, which is messy.
@@ -44,7 +60,7 @@ pm2 install pm2-logrotate
 
 ```bash
 cd nodejs
-npm test
+yarn test
 ```
 
 Most of the learning is in form of working tests. I use Jest. Yes I did try the others (jasmine, mocha) and yes, I like Jest more. But I like the chai.expect more than Jest expect. Anyway, the tests are the core of this project.
