@@ -281,7 +281,7 @@ test('transform error', done => {
     .pipe(writer)
 })
 
-test('counter as observer', done => {
+test('fork stream + observe + counter', done => {
   let counter = 0
   const reader = new ObjectReadableMock(input)
   const writer = new ObjectWritableMock()
